@@ -5,8 +5,13 @@
 " https://github.com/vim-airline/vim-airline-themes.git
 " https://github.com/mhinz/vim-startify.git
 " https://github.com/scrooloose/nerdtree.git
+" https://github.com/tpope/vim-surround.git
 " https://github.com/scrooloose/syntastic.git
 " https://github.com/godlygeek/tabular.git
+" https://github.com/tpope/vim-unimpaired.git
+" https://github.com/qpkorr/vim-bufkill.git
+" https://github.com/tpope/vim-unimpaired.git
+" https://github.com/qpkorr/vim-bufkill.git
 
 set nocompatible
 source $VIMRUNTIME/vimrc_example.vim
@@ -79,9 +84,10 @@ set undolevels=1000
 set relativenumber
 set number
 
-" Tab Settings for 4 spaces = tab
+" Tab Settings for 4 spaces = tab ( use this for work )
 set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
-" Tab settings 1 tab = 1 tab character ( appears as 4 spaces wide )
+" Tab settings 1 tab = 1 tab character ( appears as 4 spaces wide ) ( use this
+" for pleasure )
 set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
 
 " Wrap it up boy
@@ -114,6 +120,7 @@ nnoremap <silent> k gk
 nnoremap Y y$
 nnoremap <silent> <Leader>s :%s/\v\s+$//<CR>:nohl<CR>
 nnoremap <Leader>w :w<CR>
+nnoremap <Leader>nh :nohl<CR>
 
 " Swap and Backup files
 set nobackup
@@ -131,7 +138,7 @@ let g:ctrlp_cmd = 'CtrlPMixed'
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$',
-  \ 'file': '\v\.(exe|meta|so|dll|csproj|sln|manifest|suo|pdb|user|jmconfig)$'
+  \ 'file': '\v\.(exe|so|dll|meta|csproj|sln|manifest|suo|pdb|user|jmconfig)$'
   \ }
 
 " Airline Config
@@ -192,7 +199,15 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
+" Javascript Syntax Checker
+let g:syntastic_javascript_checkers = ['jsxhint']
+" Requires curl to be installed
+let g:syntastic_html_checkers = ['w3']
+
 " Tabularize shortcuts
 " Shortcut for tabularize json colon allignement
 vmap <leader>t: :Tabularize /:\zs/l0r1<CR>
 vmap <leader>t= :Tabularize /=<CR>
+
+" ArgWrap
+nnoremap <silent> <leader>a :ArgWrap<CR>
