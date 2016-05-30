@@ -12,6 +12,7 @@
 " https://github.com/qpkorr/vim-bufkill.git
 " https://github.com/tpope/vim-unimpaired.git
 " https://github.com/qpkorr/vim-bufkill.git
+" https://github.com/FooSoft/vim-argwrap
 
 " Window Size
 set lines=80 columns=150
