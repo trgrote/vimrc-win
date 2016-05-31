@@ -180,3 +180,11 @@ nmap <silent> <leader>t= viB:Tabularize /=<CR>
 
 " ArgWrap
 nnoremap <silent> <leader>a :ArgWrap<CR>
+
+" CSharp Folding? Hopefully?
+if !exists("autocommands_csharp")
+	let autocommands_csharp = 1
+
+	"setup folding for CSharpy
+	autocmd BufNewFile,BufRead *.cs set foldmethod=syntax
+endif
