@@ -36,3 +36,6 @@ endfunction
 
 " Windows fucked with my C-A key
 nunmap <C-a>
+
+" Diables flashing
+set vb t_vb=

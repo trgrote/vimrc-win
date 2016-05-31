@@ -84,8 +84,6 @@ inoremap <up> <nop>
 inoremap <down> <nop>
 inoremap <left> <nop>
 inoremap <right> <nop>
-nnoremap <silent> j gj
-nnoremap <silent> k gk
 nnoremap Y y$
 nnoremap <silent> <Leader>s :%s/\v\s+$//<CR>:nohl<CR>
 nnoremap <Leader>w :w<CR>
@@ -101,6 +99,8 @@ set noeb vb t_vb=
 " Note Header shortuct
 nnoremap <Leader>3 080i#<ESC>a<CR>#<Space>
 
+" I like folding Markers
+set foldmethod=marker
 " CtrlP Options
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlPMixed'
@@ -175,8 +175,8 @@ let g:syntastic_html_checkers = ['w3']
 
 " Tabularize shortcuts
 " Shortcut for tabularize json colon allignement
-vmap <leader>t: :Tabularize /:\zs/l0r1<CR>
-vmap <leader>t= :Tabularize /=<CR>
+nmap <leader>tj viB:Tabularize /:<CR>
+nmap <silent> <leader>t= viB:Tabularize /=<CR>
 
 " ArgWrap
 nnoremap <silent> <leader>a :ArgWrap<CR>
