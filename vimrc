@@ -41,13 +41,15 @@ set hlsearch
 set showmatch
 set cindent
 set ruler                       " Enable row/column in bottom left
-set vb                          " Flash the screen during a beep
 set noerrorbells
 set viminfo+=n$VIM/_viminfo
 set showcmd
 set mouse=a
 set history=1000
 set undolevels=1000
+
+" Stop Flashing people
+set vb t_vb=
 
 " Line Numbers
 set relativenumber
@@ -57,7 +59,7 @@ set number
 set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
 " Tab settings 1 tab = 1 tab character ( appears as 4 spaces wide ) ( use this
 " for pleasure )
-set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
+" set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
 
 " Wrap it up boy
 set wrap
@@ -93,14 +95,43 @@ nnoremap <Leader>nh :nohl<CR>
 set nobackup
 set noswapfile
 
-" Stop Flashing people
-set noeb vb t_vb=
-
 " Note Header shortuct
 nnoremap <Leader>3 080i#<ESC>a<CR>#<Space>
 
 " I like folding Markers
 set foldmethod=marker
+
+" Stolen from Example vimrc
+" Only do this part when compiled with support for autocommands.
+if has("autocmd")
+    " Enable file type detection.
+    " Use the default filetype settings, so that mail gets 'tw' set to 72,
+    " 'cindent' is on in C files, etc.
+    " Also load indent files, to automatically do language-dependent indenting.
+    filetype plugin indent on
+
+    " Put these in an autocmd group, so that we can delete them easily.
+    augroup vimrcEx
+        au!
+
+        " For all text files set 'textwidth' to 78 characters.
+        autocmd FileType text setlocal textwidth=78
+
+        " When editing a file, always jump to the last known cursor position.
+        " Don't do it when the position is invalid or when inside an event handler
+        " (happens when dropping a file on gvim).
+        " Also don't do it when the mark is in the first line, that is the default
+        " position when opening a file.
+        autocmd BufReadPost *
+            \ if line("'\"") > 1 && line("'\"") <= line("$") |
+            \   exe "normal! g`\"" |
+            \ endif
+
+    augroup END
+else
+    set autoindent		" always set autoindenting on
+endif " has("autocmd")
+
 " CtrlP Options
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlPMixed'
