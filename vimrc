@@ -90,6 +90,7 @@ nnoremap Y y$
 nnoremap <silent> <Leader>s :%s/\v\s+$//<CR>:nohl<CR>
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>nh :nohl<CR>
+inoremap <C-i> <ESC>
 
 " Swap and Backup files
 set nobackup
