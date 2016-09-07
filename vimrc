@@ -87,7 +87,9 @@ inoremap <down> <nop>
 inoremap <left> <nop>
 inoremap <right> <nop>
 nnoremap Y y$
+" Remove trailing whitespace
 nnoremap <silent> <Leader>s mp:%s/\v\s+$//<CR>:nohl<CR>`p
+" Save File
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>nh :nohl<CR>
 inoremap <C-i> <ESC>
