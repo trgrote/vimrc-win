@@ -211,7 +211,7 @@ let g:syntastic_html_checkers = ['w3']
 " Shortcut for tabularize json colon allignement
 nmap <leader>tj viB:Tabularize /:<CR>
 nmap <silent> <leader>t= viB:Tabularize /=<CR>
-vmap <silent> <leader>t/ :Tabularize /\/\/<CR>
+vmap <silent> <leader>t/ :Tabularize /\/\//l4l1<CR>
 
 " ArgWrap
 nnoremap <silent> <leader>a :ArgWrap<CR>
