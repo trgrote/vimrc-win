@@ -74,6 +74,8 @@ let mapleader="\<Space>"
 " Buffer Navigation ( tired of this :bp shit )
 nnoremap <silent> <F11> :bp<CR>
 nnoremap <silent> <F12> :bn<CR>
+nnoremap <silent> <Leader><Left> :bp<CR>
+nnoremap <silent> <Leader><Right> :bn<CR>
 inoremap <silent> <F11> <ESC>:bp<CR>i
 inoremap <silent> <F12> <ESC>:bn<CR>i
 
@@ -92,7 +94,6 @@ nnoremap <silent> <Leader>s mp:%s/\v\s+$//<CR>:nohl<CR>`p
 " Save File
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>nh :nohl<CR>
-inoremap <C-i> <ESC>
 
 " Swap and Backup files
 set nobackup
@@ -212,6 +213,7 @@ let g:syntastic_html_checkers = ['w3']
 nmap <leader>tj viB:Tabularize /:<CR>
 nmap <silent> <leader>t= viB:Tabularize /=<CR>
 vmap <silent> <leader>t/ :Tabularize /\/\//l4l1<CR>
+vmap <silent> <leader>t= :Tabularize /=<CR>
 
 " ArgWrap
 nnoremap <silent> <leader>a :ArgWrap<CR>
