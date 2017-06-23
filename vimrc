@@ -219,3 +219,5 @@ vmap <silent> <leader>tj :Tabularize /^[^:]*\zs:<CR>
 " ArgWrap
 nnoremap <silent> <leader>a :ArgWrap<CR>
 
+" Insert DateTime stamp (useful for notes)
+nnoremap <leader>dt "=strftime('%c')<CR>gp
