@@ -219,11 +219,3 @@ vmap <silent> <leader>tj :Tabularize /^[^:]*\zs:<CR>
 " ArgWrap
 nnoremap <silent> <leader>a :ArgWrap<CR>
 
-" CSharp Folding? Hopefully?
-" TODO: ftplugin folders for this kind of shit
-if !exists("autocommands_csharp")
-	let autocommands_csharp = 1
-
-	"setup folding for CSharpy
-	autocmd BufNewFile,BufRead *.cs setlocal foldmethod=syntax
-endif
