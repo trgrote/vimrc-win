@@ -1,4 +1,8 @@
 _viminfo
 vim74
 vimfiles
+autoload
+ftplugin
+plugged
+session
 *~

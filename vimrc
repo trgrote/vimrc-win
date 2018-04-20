@@ -1,18 +1,55 @@
-" Require Plugins:
-" Pathogen
-" https://github.com/ctrlpvim/ctrlp.vim.git
-" https://github.com/vim-airline/vim-airline.git
-" https://github.com/vim-airline/vim-airline-themes.git
-" https://github.com/mhinz/vim-startify.git
-" https://github.com/scrooloose/nerdtree.git
-" https://github.com/tpope/vim-surround.git
-" https://github.com/scrooloose/syntastic.git
-" https://github.com/godlygeek/tabular.git
-" https://github.com/tpope/vim-unimpaired.git
-" https://github.com/qpkorr/vim-bufkill.git
-" https://github.com/tpope/vim-unimpaired.git
-" https://github.com/qpkorr/vim-bufkill.git
-" https://github.com/FooSoft/vim-argwrap
+" Plug Section {{{
+" Vim Files folder location (based off OS)
+let autoload_dir = '~/.vim/autoload'
+
+if has('win32')
+    let autoload_dir = '~/vimfiles/autoload'
+endif
+
+let plugfile = autoload_dir . '/plug.vim'
+
+if empty(glob(plugfile))
+    " Hopefully you have curl
+    silent !curl -fLo plugfile --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+" Specify a directory for plugins
+" - For Neovim: ~/.local/share/nvim/plugged
+" - Avoid using standard Vim directory names like 'plugin'
+if has('win32')
+    call plug#begin('~/vimfiles/plugged')
+else " Mac or unix should be the same
+    call plug#begin('~/.vim/plugged')
+endif
+
+Plug 'https://github.com/FooSoft/vim-argwrap'
+Plug 'https://github.com/OrangeT/vim-csharp.git'
+Plug 'https://github.com/PProvost/vim-ps1.git'
+Plug 'https://github.com/ctrlpvim/ctrlp.vim.git'
+Plug 'https://github.com/godlygeek/tabular.git'
+Plug 'https://github.com/mhinz/vim-startify.git'
+Plug 'https://github.com/pangloss/vim-javascript.git'
+Plug 'https://github.com/qpkorr/vim-bufkill.git'
+Plug 'https://github.com/scrooloose/nerdcommenter.git'
+Plug 'https://github.com/scrooloose/nerdtree.git'
+Plug 'https://github.com/scrooloose/syntastic.git'
+Plug 'https://github.com/sickill/vim-monokai.git'
+Plug 'https://github.com/tpope/vim-surround.git'
+Plug 'https://github.com/tpope/vim-unimpaired.git'
+Plug 'https://github.com/vim-airline/vim-airline-themes.git'
+Plug 'https://github.com/vim-airline/vim-airline.git'
+
+" Initialize plugin system
+call plug#end()
+
+" Automatically install if any plugins are missing
+autocmd VimEnter *
+  \  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  \|   PlugInstall --sync | q
+  \| endif
+
+" End of Plug }}}
 
 " Window Size
 set lines=80 columns=150
@@ -20,9 +57,6 @@ set lines=80 columns=150
 "Personal Settings.
 "More to be added soon.
 set nocompatible
-execute pathogen#infect()
-filetype plugin indent on
-syntax on
 "Set the status line options. Make it show more information.
 set laststatus=2
 set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}
@@ -47,9 +81,6 @@ set showcmd
 set mouse=a
 set history=1000
 set undolevels=1000
-
-" Stop Flashing people
-set vb t_vb=
 
 " Line Numbers
 set relativenumber
@@ -136,6 +167,8 @@ else
     set autoindent		" always set autoindenting on
 endif " has("autocmd")
 
+" Plugin Configurations {{{
+
 " CtrlP Options
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlPMixed'
@@ -221,3 +254,5 @@ nnoremap <silent> <leader>a :ArgWrap<CR>
 
 " Insert DateTime stamp (useful for notes)
 nnoremap <leader>dt "=strftime('%c')<CR>gp
+
+" End of Plugin Config }}}

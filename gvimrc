@@ -6,8 +6,8 @@ set guioptions -=L  "remove left-hand scroll bar
 
 set nocompatible
 "source $VIMRUNTIME/vimrc_example.vim
-source $VIMRUNTIME/mswin.vim
-behave mswin
+"source $VIMRUNTIME/mswin.vim
+"behave mswin
 
 set diffexpr=MyDiff()
 function! MyDiff()
@@ -35,8 +35,7 @@ function! MyDiff()
 endfunction
 
 " Windows fucked with my C-A key
-nunmap <C-a>
+"nunmap <C-a>
 
 " Stop Flashing people
 set vb t_vb=
-
