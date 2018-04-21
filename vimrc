@@ -23,22 +23,24 @@ else " Mac or unix should be the same
     call plug#begin('~/.vim/plugged')
 endif
 
-Plug 'https://github.com/FooSoft/vim-argwrap'
-Plug 'https://github.com/OrangeT/vim-csharp.git'
-Plug 'https://github.com/PProvost/vim-ps1.git'
-Plug 'https://github.com/ctrlpvim/ctrlp.vim.git'
-Plug 'https://github.com/godlygeek/tabular.git'
-Plug 'https://github.com/mhinz/vim-startify.git'
-Plug 'https://github.com/pangloss/vim-javascript.git'
-Plug 'https://github.com/qpkorr/vim-bufkill.git'
-Plug 'https://github.com/scrooloose/nerdcommenter.git'
-Plug 'https://github.com/scrooloose/nerdtree.git'
-Plug 'https://github.com/scrooloose/syntastic.git'
-Plug 'https://github.com/sickill/vim-monokai.git'
-Plug 'https://github.com/tpope/vim-surround.git'
-Plug 'https://github.com/tpope/vim-unimpaired.git'
-Plug 'https://github.com/vim-airline/vim-airline-themes.git'
-Plug 'https://github.com/vim-airline/vim-airline.git'
+Plug 'FooSoft/vim-argwrap'
+Plug 'OrangeT/vim-csharp'
+Plug 'PProvost/vim-ps1'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'flazz/vim-colorschemes'
+Plug 'godlygeek/tabular'
+Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'mhinz/vim-startify'
+Plug 'pangloss/vim-javascript'
+Plug 'qpkorr/vim-bufkill'
+Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/syntastic'
+Plug 'sickill/vim-monokai'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 " Initialize plugin system
 call plug#end()
@@ -257,5 +259,9 @@ nnoremap <silent> <leader>a :ArgWrap<CR>
 
 " Insert DateTime stamp (useful for notes)
 nnoremap <leader>dt "=strftime('%c')<CR>gp
+
+" Rainbow Paranthesis
+let g:rainbow#max_level = 16
+let g:rainbow#pairs = [['(', ')'], ['[', ']']]
 
 " End of Plugin Config }}}
