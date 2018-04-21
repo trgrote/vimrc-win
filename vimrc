@@ -70,6 +70,9 @@ set hidden
 set ignorecase
 set smartcase
 
+" Enable Backspace
+set backspace=indent,eol,start
+
 set incsearch
 set hlsearch
 set showmatch
