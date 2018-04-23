@@ -191,7 +191,7 @@ let g:airline_theme = 'molokai'
 nnoremap <silent> <F1> :NERDTreeToggle<CR>
 let NERDTreeIgnore = ['\.meta$']
 
-" vim-startify
+" vim-startify {{{
 let g:startify_session_delete_buffers = 1    " Delete Opened buffers for changing sessions
 let g:startify_session_persistence    = 1    " Save Current Session on close/switch
 let g:startify_enable_special         = 0    " Don't show the empty buffer and quit options on start screen
@@ -231,6 +231,8 @@ let g:startify_custom_header = s:filter_header([
 " Startify Alias
 nmap <Leader>p :SLoad<Space>
 
+" }}}
+
 " Syntastic
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -260,8 +262,13 @@ nnoremap <silent> <leader>a :ArgWrap<CR>
 " Insert DateTime stamp (useful for notes)
 nnoremap <leader>dt "=strftime('%c')<CR>gp
 
-" Rainbow Paranthesis
+" Rainbow Paranthesis {{{
 let g:rainbow#max_level = 16
 let g:rainbow#pairs = [['(', ')'], ['[', ']']]
+
+" Always Start
+autocmd VimEnter * call rainbow_parentheses#activate()
+
+" }}}
 
 " End of Plugin Config }}}
