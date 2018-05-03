@@ -7,10 +7,19 @@ if has('win32')
 endif
 
 let plugfile = autoload_dir . '/plug.vim'
+let plugdownloadLocation = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim' 
 
 if empty(glob(plugfile))
-    " Hopefully you have curl
-    silent !curl -fLo plugfile --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    if has('win32')
+        " Create Autoload dir
+        silent execute '!md ' . autoload_dir
+        silent execute '!(New-Object Net.WebClient).DownloadFile(' .  plugdownloadLocation . ', $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath( ' . plugfile . '))'
+    else
+        " Hopefully you have curl
+        silent execute '!curl -fLo ' . plugfile . ' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    endif
+
+    " Run Plug Install asap
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
