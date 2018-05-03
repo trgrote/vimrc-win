@@ -264,10 +264,12 @@ nnoremap <leader>dt "=strftime('%c')<CR>gp
 
 " Rainbow Paranthesis {{{
 let g:rainbow#max_level = 16
-let g:rainbow#pairs = [['(', ')'], ['[', ']']]
+let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
 
 " Always Start
 autocmd VimEnter * call rainbow_parentheses#activate()
+" Fix for Javascript.vim conflict (right now it still doesn't look very good)
+"autocmd FileType javascript syntax clear jsFuncBlock jsFuncArgs
 
 " }}}
 
