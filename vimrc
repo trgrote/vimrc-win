@@ -103,7 +103,7 @@ set relativenumber
 set number
 
 " Tab Settings for 4 spaces = tab ( use this for work )
-set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+set tabstop=4 softtabstop=0 shiftwidth=4 noexpandtab copyindent nopreserveindent
 " Tab settings 1 tab = 1 tab character ( appears as 4 spaces wide ) ( use this
 " for pleasure )
 " set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
