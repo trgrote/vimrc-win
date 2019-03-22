@@ -7,7 +7,7 @@ if has('win32')
 endif
 
 let plugfile = autoload_dir . '/plug.vim'
-let plugdownloadLocation = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim' 
+let plugdownloadLocation = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 if empty(glob(plugfile))
     if has('win32')
