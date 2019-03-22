@@ -17,7 +17,7 @@ function! GetIdeaFold(lnum)
 endfunction
 
 " Helper Function to get description field from editor fold
-function! s:GetIdeaFoldDesc(lnum)
+function! GetIdeaFoldDesc(lnum)
 	let line = getline(a:lnum)
 	return matchstr(line, 'desc="\zs[^"]\+\ze"')
 endfunction
@@ -32,3 +32,21 @@ function! GetIdeaFoldText()
 	return foldStart . desc
 endfunction
 " }}}
+
+" Generate Editor Folding {{{
+function! s:MakeIntellijFolding(desc) abort
+	" Append new lines to before and after visual selection
+	" include the description argument
+	call append(line("'<")-1, '//<editor-fold desc="' . a:desc . '">')
+	call append(line("'>"), '//</editor-fold>')
+
+	" Highlights the tagged area and formats it (may not want to do that, only
+	" want to format new lines)
+	normal! vat=
+endfunction
+
+" https://vi.stackexchange.com/questions/4753/is-it-possible-to-create-mappings-with-parameters
+vnoremap <leader>e :<c-u>call <sid>MakeIntellijFolding(input("Description: "))<CR>
+
+" }}}
+
