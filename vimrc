@@ -3,33 +3,33 @@
 let autoload_dir = '~/.vim/autoload'
 
 if has('win32')
-    let autoload_dir = '~/vimfiles/autoload'
+	let autoload_dir = '~/vimfiles/autoload'
 endif
 
 let plugfile = autoload_dir . '/plug.vim'
 let plugdownloadLocation = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 if empty(glob(plugfile))
-    if has('win32')
-        " Create Autoload dir
-        silent execute '!md ' . autoload_dir
-        silent execute '!(New-Object Net.WebClient).DownloadFile(' .  plugdownloadLocation . ', $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath( ' . plugfile . '))'
-    else
-        " Hopefully you have curl
-        silent execute '!curl -fLo ' . plugfile . ' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    endif
+	if has('win32')
+		" Create Autoload dir
+		silent execute '!md ' . autoload_dir
+		silent execute '!(New-Object Net.WebClient).DownloadFile(' .  plugdownloadLocation . ', $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath( ' . plugfile . '))'
+	else
+		" Hopefully you have curl
+		silent execute '!curl -fLo ' . plugfile . ' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+	endif
 
-    " Run Plug Install asap
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+	" Run Plug Install asap
+	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 " Specify a directory for plugins
 " - For Neovim: ~/.local/share/nvim/plugged
 " - Avoid using standard Vim directory names like 'plugin'
 if has('win32')
-    call plug#begin('~/vimfiles/plugged')
+	call plug#begin('~/vimfiles/plugged')
 else " Mac or unix should be the same
-    call plug#begin('~/.vim/plugged')
+	call plug#begin('~/.vim/plugged')
 endif
 
 Plug 'FooSoft/vim-argwrap'
@@ -59,9 +59,9 @@ call plug#end()
 
 " Automatically install if any plugins are missing
 autocmd VimEnter *
-  \  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
-  \|   PlugInstall --sync | q
-  \| endif
+			\  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+			\|   PlugInstall --sync | q
+			\| endif
 
 " End of Plug }}}
 
@@ -154,32 +154,32 @@ set foldmethod=marker
 " Stolen from Example vimrc
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
-    " Enable file type detection.
-    " Use the default filetype settings, so that mail gets 'tw' set to 72,
-    " 'cindent' is on in C files, etc.
-    " Also load indent files, to automatically do language-dependent indenting.
-    filetype plugin indent on
+	" Enable file type detection.
+	" Use the default filetype settings, so that mail gets 'tw' set to 72,
+	" 'cindent' is on in C files, etc.
+	" Also load indent files, to automatically do language-dependent indenting.
+	filetype plugin indent on
 
-    " Put these in an autocmd group, so that we can delete them easily.
-    augroup vimrcEx
-        au!
+	" Put these in an autocmd group, so that we can delete them easily.
+	augroup vimrcEx
+		au!
 
-        " For all text files set 'textwidth' to 78 characters.
-        autocmd FileType text setlocal textwidth=78
+		" For all text files set 'textwidth' to 78 characters.
+		autocmd FileType text setlocal textwidth=78
 
-        " When editing a file, always jump to the last known cursor position.
-        " Don't do it when the position is invalid or when inside an event handler
-        " (happens when dropping a file on gvim).
-        " Also don't do it when the mark is in the first line, that is the default
-        " position when opening a file.
-        autocmd BufReadPost *
-            \ if line("'\"") > 1 && line("'\"") <= line("$") |
-            \   exe "normal! g`\"" |
-            \ endif
+		" When editing a file, always jump to the last known cursor position.
+		" Don't do it when the position is invalid or when inside an event handler
+		" (happens when dropping a file on gvim).
+		" Also don't do it when the mark is in the first line, that is the default
+		" position when opening a file.
+		autocmd BufReadPost *
+					\ if line("'\"") > 1 && line("'\"") <= line("$") |
+					\   exe "normal! g`\"" |
+					\ endif
 
-    augroup END
+	augroup END
 else
-    set autoindent		" always set autoindenting on
+	set autoindent		" always set autoindenting on
 endif " has("autocmd")
 
 " Plugin Configurations {{{
@@ -189,9 +189,9 @@ let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlPMixed'
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$',
-  \ 'file': '\v\.(exe|so|dll|meta|csproj|sln|manifest|suo|pdb|user|jmconfig)$'
-  \ }
+			\ 'dir':  '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$',
+			\ 'file': '\v\.(exe|so|dll|meta|csproj|sln|manifest|suo|pdb|user|jmconfig)$'
+			\ }
 
 " Airline Config
 let g:airline#extensions#tabline#enabled = 1
@@ -209,34 +209,34 @@ let g:startify_list_order             = [ 'sessions', 'files', 'bookmarks', 'dir
 
 " Dumb function to center RMS's fat head
 function! s:filter_header(lines) abort
-    let longest_line   = max(map(copy(a:lines), 'len(v:val)'))
-    let centered_lines = map(copy(a:lines),
-        \ 'repeat(" ", (&columns / 2) - (longest_line / 2)) . v:val')
-    return centered_lines
+	let longest_line   = max(map(copy(a:lines), 'len(v:val)'))
+	let centered_lines = map(copy(a:lines),
+				\ 'repeat(" ", (&columns / 2) - (longest_line / 2)) . v:val')
+	return centered_lines
 endfunction
 
 let g:startify_custom_header = s:filter_header([
-    \ '                                                ',
-    \ '                  @@@@@@ @                      ',
-    \ '                 @@@@     @@                    ',
-    \ '                @@@@ =   =  @@                  ',
-    \ '               @@@ @ _   _   @@                 ',
-    \ '               @@@ @(0)|(0)  @@                 ',
-    \ '              @@@@   ~ | ~   @@                 ',
-    \ '              @@@ @  (o1o)    @@                ',
-    \ '             @@@    #######    @                ',
-    \ '             @@@   ##{+++}##   @@               ',
-    \ '            @@@@@ ## ##### ## @@@@              ',
-    \ '            @@@@@#############@@@@              ',
-    \ '           @@@@@@@###########@@@@@@             ',
-    \ '          @@@@@@@#############@@@@@             ',
-    \ '          @@@@@@@### ## ### ###@@@@             ',
-    \ '           @ @  @              @  @             ',
-    \ '             @                    @             ',
-    \ '                                                ',
-    \ 'Me Mo Mo Richard Stallman, Welcome to the EMACS!',
-    \ '',
-    \ ] )
+			\ '                                                ',
+			\ '                  @@@@@@ @                      ',
+			\ '                 @@@@     @@                    ',
+			\ '                @@@@ =   =  @@                  ',
+			\ '               @@@ @ _   _   @@                 ',
+			\ '               @@@ @(0)|(0)  @@                 ',
+			\ '              @@@@   ~ | ~   @@                 ',
+			\ '              @@@ @  (o1o)    @@                ',
+			\ '             @@@    #######    @                ',
+			\ '             @@@   ##{+++}##   @@               ',
+			\ '            @@@@@ ## ##### ## @@@@              ',
+			\ '            @@@@@#############@@@@              ',
+			\ '           @@@@@@@###########@@@@@@             ',
+			\ '          @@@@@@@#############@@@@@             ',
+			\ '          @@@@@@@### ## ### ###@@@@             ',
+			\ '           @ @  @              @  @             ',
+			\ '             @                    @             ',
+			\ '                                                ',
+			\ 'Me Mo Mo Richard Stallman, Welcome to the EMACS!',
+			\ '',
+			\ ] )
 
 " Startify Alias
 nmap <Leader>p :SLoad<Space>
@@ -273,7 +273,9 @@ nnoremap <silent> <leader>a :ArgWrap<CR>
 nnoremap <leader>dt "=strftime('%c')<CR>gp
 
 " vimwiki/vimwiki
-let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_list = [
+			\{'path': '~/vimwiki/mwl/', 'index': 'index', 'autotags' : 1}
+			\]
 
 " Rainbow Paranthesis {{{
 let g:rainbow#max_level = 16
