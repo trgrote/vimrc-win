@@ -52,6 +52,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
+Plug 'vimwiki/vimwiki', { 'branch': 'dev' }
 
 " Initialize plugin system
 call plug#end()
@@ -121,8 +122,6 @@ let mapleader="\<Space>"
 " Buffer Navigation ( tired of this :bp shit )
 nnoremap <silent> <F11> :bp<CR>
 nnoremap <silent> <F12> :bn<CR>
-nnoremap <silent> <Leader><Left> :bp<CR>
-nnoremap <silent> <Leader><Right> :bn<CR>
 inoremap <silent> <F11> <ESC>:bp<CR>i
 inoremap <silent> <F12> <ESC>:bn<CR>i
 
@@ -139,7 +138,7 @@ nnoremap Y y$
 " Remove trailing whitespace
 nnoremap <silent> <Leader>s mp:%s/\v\s+$//<CR>:nohl<CR>`p
 " Save File
-nnoremap <Leader>w :w<CR>
+nnoremap <Leader><Leader> :w<CR>
 nnoremap <Leader>nh :nohl<CR>
 
 " Swap and Backup files
@@ -272,6 +271,9 @@ nnoremap <silent> <leader>a :ArgWrap<CR>
 
 " Insert DateTime stamp (useful for notes)
 nnoremap <leader>dt "=strftime('%c')<CR>gp
+
+" vimwiki/vimwiki
+let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
 
 " Rainbow Paranthesis {{{
 let g:rainbow#max_level = 16
