@@ -272,10 +272,28 @@ nnoremap <silent> <leader>a :ArgWrap<CR>
 " Insert DateTime stamp (useful for notes)
 nnoremap <leader>dt "=strftime('%c')<CR>gp
 
-" vimwiki/vimwiki
+" vimwiki/vimwiki {{{
 let g:vimwiki_list = [
-			\{'path': '~/vimwiki/mwl/', 'index': 'index', 'autotags' : 1}
+			\{
+			\'path'        : '~/vimwiki/mwl/',
+			\'index'       : 'index',
+			\'auto_tags'   : 1,
+			\'auto_export' : 1,
+			\'auto_toc'    : 1
+			\}
 			\]
+
+let g:vimwiki_folding = 'list'
+
+" Header Colors
+hi VimwikiHeader1 guifg=#FF0000
+hi VimwikiHeader2 guifg=#00FF00
+hi VimwikiHeader3 guifg=#0000FF
+hi VimwikiHeader4 guifg=#FF00FF
+hi VimwikiHeader5 guifg=#00FFFF
+hi VimwikiHeader6 guifg=#FFFF00
+
+" }}}
 
 " Rainbow Paranthesis {{{
 let g:rainbow#max_level = 16
