@@ -111,7 +111,8 @@ set tabstop=4 softtabstop=0 shiftwidth=4 noexpandtab copyindent nopreserveindent
 
 " Wrap it up boy
 set wrap
-set textwidth=80
+" Disable automatic newline insertion after X amount of chars
+set textwidth=0
 set linebreak
 set wrapmargin=0
 set formatoptions=cqt
