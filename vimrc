@@ -294,6 +294,18 @@ hi VimwikiHeader4 guifg=#FF00FF
 hi VimwikiHeader5 guifg=#00FFFF
 hi VimwikiHeader6 guifg=#FFFF00
 
+" VimWiki skeleton file
+if has("autocmd")
+	augroup wiki_templates
+		au!
+		if has('win32')
+			autocmd BufNewFile *.wiki 0r ~/vimfiles/templates/skeleton.wiki
+		else
+			autocmd BufNewFile *.wiki 0r ~/.vim/templates/skeleton.wiki
+		endif
+	augroup end
+endif
+
 " }}}
 
 " Rainbow Paranthesis {{{
