@@ -279,7 +279,6 @@ let g:vimwiki_list = [
 			\'path'        : '~/vimwiki/mwl/',
 			\'index'       : 'index',
 			\'auto_tags'   : 1,
-			\'auto_export' : 1,
 			\'auto_toc'    : 1
 			\}
 			\]
