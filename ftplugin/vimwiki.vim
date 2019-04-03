@@ -23,4 +23,5 @@ function! s:MakeTicketWithDesc(...)
 endfunction
 
 " TODO Add exists check
-command! -nargs=+ MakeTicketLink call s:MakeTicketWithDesc(<f-args>)
+command! -nargs=+ NewTicket call s:MakeTicketWithDesc(<f-args>)
+command! -nargs=+ NewSection normal! Go<CR>== <args> ==<CR><ESC>
