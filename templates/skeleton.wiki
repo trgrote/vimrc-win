@@ -1,13 +1,17 @@
 = Contents =
-    - [[#TITLE|TITLE]]
-        - [[#TITLE#TODO|TODO]]
-        - [[#TITLE#Analysis|Analysis]]
-        - [[#TITLE#Testing|Testing]]
-        - [[#TITLE#Go Live|Go Live]]
+    - [[#Title|Title]]
+        - [[#Title#Description|Description]]
+        - [[#Title#Research|Research]]
+        - [[#Title#Analysis|Analysis]]
+        - [[#Title#Testing|Testing]]
+        - [[#Title#Go Live|Go Live]]
 
-= BLAH =
+= Title =
+%title Title
 
-== TODO ==
+== Description ==
+
+== Research ==
 
 == Analysis ==
 
