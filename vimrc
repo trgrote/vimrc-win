@@ -139,7 +139,7 @@ nnoremap Y y$
 " Remove trailing whitespace
 nnoremap <silent> <Leader>s mp:%s/\v\s+$//<CR>:nohl<CR>`p
 " Save File
-nnoremap <Leader><Leader> :w<CR>
+nnoremap <silent> <Leader><Leader> :w<CR>
 nnoremap <Leader>nh :nohl<CR>
 
 " Swap and Backup files
