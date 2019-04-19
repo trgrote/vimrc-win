@@ -14,12 +14,21 @@ function! s:MakeTicketWithDesc(...)
 	" Get Arguments
 	let ticketNum = a:1
 	let description = join(a:000[1:-1], ' ') "Description is the rest of the arguments joined together
+	let fullTicketName = printf("Ticket-%s", ticketNum)
+	let ticketFolderName = printf("Tickets/%s", fullTicketName)
 
 	" Find line that looks like this: '== Tickets =='
 	" And then insert a new line under that as a list item
 	let ticketsLineNum = search("== Tickets ==")
 
 	execute printf("normal %dGo- [[Tickets/Ticket-%s|%s]]", ticketsLineNum, ticketNum, description)
+
+	" Create Folder with same name as Ticket (not sure if this is a good idea)
+	call mkdir(ticketFolderName)
+
+	" TODO Create new file if it doesn't exist
+	" TODO Open ticket file
+	" TODO Autopopulate file with command arguments
 endfunction
 
 " TODO Add exists check
