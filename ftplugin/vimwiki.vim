@@ -25,3 +25,7 @@ endfunction
 " TODO Add exists check
 command! -nargs=+ NewTicket call s:MakeTicketWithDesc(<f-args>)
 command! -nargs=+ NewSection normal! Go<CR>== <args> ==<CR><ESC>
+
+" Mapping to insert Date Time Stamp surrounded by ** as a newline, and then end on said newline
+nnoremap <silent> <Leader>ts i*<C-R>=strftime('%c')<CR>*<CR><ESC>
+
