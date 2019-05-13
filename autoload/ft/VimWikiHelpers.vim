@@ -1,5 +1,6 @@
 " VimWiki Helpers that me, Taylor Grote, built
 
+" Local Functions {{{
 " Fill it with the skeleton file
 function! s:LoadWikiFile()
 	" Fill 'er up
@@ -12,6 +13,7 @@ function! s:ReplaceTitle(description)
 	silent execute "%s/TITLE/" . a:description . "/g"
 endfunction
 
+" Replace start date with actual current start date
 function! s:ReplaceStartDate()
 	" Run substitution on the buffer
 	let dateTime = strftime('%c')
@@ -19,6 +21,7 @@ function! s:ReplaceStartDate()
 	let subCommand = '%s/START_DATE/*' . substitute(dateTime, '/', '\\/', 'g') . '*/g'
 	silent execute subCommand
 endfunction
+" }}}
 
 " Function designed for the main wiki page that will add a new wiki page link
 " arguments:
@@ -49,7 +52,6 @@ function! ft#VimWikiHelpers#MakeTicketWithDesc(...)
 	call mkdir(ticketFolderName)
 
 	" Create/open new file if it doesn't exist
-	" Note: This will fuckup if we have an autocmd setup for this
 	silent execute "e " . ticketFileName
 
 	" Autopopulate file with command arguments
