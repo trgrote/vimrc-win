@@ -7,11 +7,7 @@ endif
 
 " Plug Section {{{
 " Vim Files folder location (based off OS)
-let autoload_dir = '~/.vim/autoload'
-
-if has('win32')
-	let autoload_dir = '~/vimfiles/autoload'
-endif
+let autoload_dir = g:vimfiles_dir . '/autoload'
 
 let plugfile = autoload_dir . '/plug.vim'
 let plugdownloadLocation = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
@@ -33,11 +29,7 @@ endif
 " Specify a directory for plugins
 " - For Neovim: ~/.local/share/nvim/plugged
 " - Avoid using standard Vim directory names like 'plugin'
-if has('win32')
-	call plug#begin('~/vimfiles/plugged')
-else " Mac or unix should be the same
-	call plug#begin('~/.vim/plugged')
-endif
+call plug#begin(g:vimfiles_dir . '/plugged')
 
 Plug 'FooSoft/vim-argwrap'
 Plug 'OrangeT/vim-csharp'
