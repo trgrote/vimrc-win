@@ -2,6 +2,8 @@
 
 " Local Functions {{{
 " Fill it with the skeleton file
+" Requires the g:vimfiles_dir to be a string indicating the vimfiles directory
+" for the current machine (this should be in my vimrc file)
 function! s:LoadWikiFile()
 	" Fill 'er up
 	silent execute '-1read ' . g:vimfiles_dir . '/templates/skeleton.wiki'
