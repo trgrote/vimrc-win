@@ -290,7 +290,7 @@ let g:vimwiki_list = [
 			\}
 			\]
 
-let g:vimwiki_folding = 'list'
+let g:vimwiki_folding = ''
 
 " Header Colors
 hi VimwikiHeader1 guifg=#FF0000
