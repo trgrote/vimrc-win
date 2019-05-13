@@ -1,20 +1,15 @@
 = Contents =
-    - [[#Title|Title]]
-        - [[#Title#Description|Description]]
-        - [[#Title#Research|Research]]
-        - [[#Title#Analysis|Analysis]]
-        - [[#Title#Testing|Testing]]
-        - [[#Title#Go Live|Go Live]]
+    - [[#TITLE|TITLE]]
+        - [[#TITLE#Description|Description]]
+        - [[#TITLE#Research|Research]]
+        - [[#TITLE#Go Live|Go Live]]
 
-= Title =
-%title Title
+= TITLE =
+%title TITLE
 
 == Description ==
+START_DATE
 
 == Research ==
-
-== Analysis ==
-
-== Testing ==
 
 == Go Live ==

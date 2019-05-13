@@ -1,3 +1,10 @@
+" Vim Home Directory is different depending on which OS we're in {{{
+let g:vimfiles_dir = '~/.vim'
+if has('win32')
+	let g:vimfiles_dir = '~/vimfiles'
+endif
+" }}}
+
 " Plug Section {{{
 " Vim Files folder location (based off OS)
 let autoload_dir = '~/.vim/autoload'
