@@ -49,6 +49,7 @@ function! ft#VimWikiHelpers#MakeTicketWithDesc(...)
 	let ticketsLineNum = search("== Tickets ==")
 
 	execute printf("normal %dGo- [[Tickets/Ticket-%s|%s]]", ticketsLineNum, ticketNum, description)
+	write
 
 	" Create Folder with same name as Ticket (not sure if this is a good idea)
 	call mkdir(ticketFolderName)
@@ -59,4 +60,5 @@ function! ft#VimWikiHelpers#MakeTicketWithDesc(...)
 	" Autopopulate file with command arguments
 	call s:ReplaceTitle(description)
 	call s:ReplaceStartDate()
+	write
 endfunction
