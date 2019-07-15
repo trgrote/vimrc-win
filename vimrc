@@ -52,6 +52,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'vimwiki/vimwiki', { 'branch': 'dev' }
+Plug 'majutsushi/tagbar'
 
 " Initialize plugin system
 call plug#end()
@@ -315,6 +316,18 @@ autocmd VimEnter * call rainbow_parentheses#activate()
 " Fix for Javascript.vim conflict (right now it still doesn't look very good)
 "autocmd FileType javascript syntax clear jsFuncBlock jsFuncArgs
 
+" }}}
+
+" majutsushi/tagbar {{{
+let g:tagbar_type_vimwiki = {
+          \   'ctagstype':'vimwiki'
+          \ , 'kinds':['h:header']
+          \ , 'sro':'&&&'
+          \ , 'kind2scope':{'h':'header'}
+          \ , 'sort':0
+          \ , 'ctagsbin': g:vimfiles_dir . '/vwtags.py'
+          \ , 'ctagsargs': 'default'
+          \ }
 " }}}
 
 " End of Plugin Config }}}
