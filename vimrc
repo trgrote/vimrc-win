@@ -39,6 +39,8 @@ Plug 'flazz/vim-colorschemes'
 Plug 'godlygeek/tabular'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'mhinz/vim-startify'
+Plug 'mxw/vim-jsx'
+Plug 'pangloss/vim-javascript'
 Plug 'pangloss/vim-javascript'
 Plug 'qpkorr/vim-bufkill'
 Plug 'scrooloose/nerdcommenter'
@@ -49,8 +51,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
+Plug 'vim-perl/vim-perl', { 'for': 'perl', 'do': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny' }
 Plug 'vimwiki/vimwiki', { 'branch': 'dev' }
 Plug 'majutsushi/tagbar'
 
