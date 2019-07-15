@@ -1,4 +1,5 @@
 " Javascript specific config
+set nospell
 
 " Intellij Editor Folding {{{
 setlocal foldmethod=expr
