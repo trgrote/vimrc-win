@@ -51,15 +51,9 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-<<<<<<< HEAD
 Plug 'vim-perl/vim-perl', { 'for': 'perl', 'do': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny' }
 Plug 'vimwiki/vimwiki', { 'branch': 'dev' }
 Plug 'majutsushi/tagbar'
-=======
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
-"Plug 'vimwiki/vimwiki'
->>>>>>> Remove viminfo file specification, should default to /root
 
 " Initialize plugin system
 call plug#end()
@@ -100,6 +94,7 @@ set showmatch
 set cindent
 set ruler                       " Enable row/column in bottom left
 set noerrorbells
+set viminfo+=n$VIM/_viminfo
 set showcmd
 set mouse=a
 set history=1000
