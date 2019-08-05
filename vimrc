@@ -94,7 +94,6 @@ set showmatch
 set cindent
 set ruler                       " Enable row/column in bottom left
 set noerrorbells
-set viminfo+=n$VIM/_viminfo
 set showcmd
 set mouse=a
 set history=1000
