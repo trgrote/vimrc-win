@@ -5,7 +5,7 @@
         - [[#TITLE#Go Live|Go Live]]
 
 = TITLE =
-%title TITLE
+%title PAGE_TITLE
 
 == Description ==
 START_DATE

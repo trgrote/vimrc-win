@@ -285,14 +285,15 @@ let g:vimwiki_list = [
 			\]
 
 let g:vimwiki_folding = ''
+let g:vimwiki_conceallevel = 2
 
-" Header Colors
-hi VimwikiHeader1 guifg=#FF0000
-hi VimwikiHeader2 guifg=#00FF00
-hi VimwikiHeader3 guifg=#0000FF
-hi VimwikiHeader4 guifg=#FF00FF
-hi VimwikiHeader5 guifg=#00FFFF
-hi VimwikiHeader6 guifg=#FFFF00
+" Header Colors (stolen from http://www.eclipsecolorthemes.org/?view=theme&id=6093)
+hi VimwikiHeader1 guifg=#F92672
+hi VimwikiHeader2 guifg=#AE81FF
+hi VimwikiHeader3 guifg=#A6E22E
+hi VimwikiHeader4 guifg=#66D9EF
+hi VimwikiHeader5 guifg=#FFE792
+hi VimwikiHeader6 guifg=#F8F8F2
 
 " VimWiki skeleton file
 if has("autocmd")

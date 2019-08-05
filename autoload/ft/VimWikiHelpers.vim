@@ -10,18 +10,19 @@ function! s:LoadWikiFile()
 endfunction
 
 " Replace text 'Title' in the current buffer with description is given
-function! s:ReplaceTitle(description)
+function! s:ReplaceTitle(ticketNum, description)
 	" Run substitution on the buffer
+	silent execute "%s/PAGE_TITLE/" . "Ticket-" . a:ticketNum . ": " . a:description . "/g"
 	silent execute "%s/TITLE/" . a:description . "/g"
 endfunction
 
 " Replace start date with actual current start date
 function! s:ReplaceStartDate()
 	" Run substitution on the buffer
-	let dateTime = strftime('%c')
+	let l:dateTime = strftime('%c')
 	" Format is MM/DD/YYYY and those '/' confuse the substitution process so we need to replace with with escaped characters
-	let subCommand = '%s/START_DATE/*' . substitute(dateTime, '/', '\\/', 'g') . '*/g'
-	silent execute subCommand
+	let l:subCommand = '%s/START_DATE/*' . substitute(l:dateTime, '/', '\\/', 'g') . '*/g'
+	silent execute l:subCommand
 endfunction
 " }}}
 
@@ -39,7 +40,12 @@ function! ft#VimWikiHelpers#MakeTicketWithDesc(...)
 	" Get Arguments
 	let skeletonFile = g:vimfiles_dir . '/templates/skeleton.wiki'
 	let ticketNum = a:1
-	let description = join(a:000[1:-1], ' ') "Description is the rest of the arguments joined together
+
+	" Description is the rest of the arguments joined together
+	" TODO Find a way to filter out empty '' tokens
+	let descriptionTokens = map(copy(a:000[1:-1]), { key, val -> substitute(v:val, "-", "", "g") })
+	call filter(descriptionTokens, 'v:val != ""')   " Remove empty tokens
+	let description = substitute(join(descriptionTokens, ' '), "-", "", "g")
 	let fullTicketName = printf("Ticket-%s", ticketNum)
 	let ticketFolderName = printf("Tickets/%s", fullTicketName)
 	let ticketFileName = printf("./%s.wiki", ticketFolderName)
@@ -58,7 +64,7 @@ function! ft#VimWikiHelpers#MakeTicketWithDesc(...)
 	silent execute "e " . ticketFileName
 
 	" Autopopulate file with command arguments
-	call s:ReplaceTitle(description)
+	call s:ReplaceTitle(ticketNum, description)
 	call s:ReplaceStartDate()
 	write
 endfunction
