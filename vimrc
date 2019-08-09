@@ -109,7 +109,7 @@ set tabstop=4 softtabstop=0 shiftwidth=4 noexpandtab copyindent nopreserveindent
 " for pleasure )
 " set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
 set list
-set listchars=tab:>-
+set listchars=tab:>-,trail:•
 " Disable weird background highlighting that happens for list characters
 hi SpecialKey guibg=NONE ctermbg=NONE
 
