@@ -67,7 +67,9 @@ autocmd VimEnter *
 " End of Plug }}}
 
 " Window Size
-set lines=80 columns=150
+if has('win32')
+	set lines=80 columns=150
+endif
 
 "Personal Settings.
 "More to be added soon.
