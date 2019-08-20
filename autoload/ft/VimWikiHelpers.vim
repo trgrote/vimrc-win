@@ -42,10 +42,9 @@ function! ft#VimWikiHelpers#MakeTicketWithDesc(...)
 	let ticketNum = a:1
 
 	" Description is the rest of the arguments joined together
-	" TODO Find a way to filter out empty '' tokens
-	let descriptionTokens = map(copy(a:000[1:-1]), { key, val -> substitute(v:val, "-", "", "g") })
+	let descriptionTokens = map(copy(a:000[1:-1]), { key, val -> substitute(v:val, "[#-]", "", "g") })
 	call filter(descriptionTokens, 'v:val != ""')   " Remove empty tokens
-	let description = substitute(join(descriptionTokens, ' '), "-", "", "g")
+	let description = join(descriptionTokens, ' ')
 	let fullTicketName = printf("Ticket-%s", ticketNum)
 	let ticketFolderName = printf("Tickets/%s", fullTicketName)
 	let ticketFileName = printf("./%s.wiki", ticketFolderName)
