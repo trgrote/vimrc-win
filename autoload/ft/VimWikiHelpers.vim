@@ -56,8 +56,8 @@ function! ft#VimWikiHelpers#MakeTicketWithDesc(...)
 	execute printf("normal %dGo- [[Tickets/Ticket-%s|%s]]", ticketsLineNum, ticketNum, description)
 	write
 
-	" Create Folder with same name as Ticket (not sure if this is a good idea)
-	call mkdir(ticketFolderName)
+	" Create Folder with same name as Ticket
+	call mkdir(ticketFolderName, "p")
 
 	" Create/open new file if it doesn't exist
 	silent execute "e " . ticketFileName
