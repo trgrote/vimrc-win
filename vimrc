@@ -122,6 +122,7 @@ set textwidth=0
 set linebreak
 set wrapmargin=0
 set formatoptions=cqt
+set lazyredraw   " Don't redraw after during a macro run
 
 " Set Mapleader
 let mapleader="\<Space>"
