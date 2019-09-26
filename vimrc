@@ -274,6 +274,7 @@ vmap <silent> <leader>t/ :Tabularize /\/\//l4l1<CR>
 vmap <silent> <leader>t= :Tabularize /=<CR>
 vmap <silent> <leader>tj :Tabularize /^[^:]*\zs:<CR>
 vmap <silent> <leader>t# :Tabularize /#/l4l1<CR>
+vmap <silent> <leader>t=> :Tabularize /=><CR>
 
 " ArgWrap
 nnoremap <silent> <leader>a :ArgWrap<CR>
