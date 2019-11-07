@@ -149,6 +149,9 @@ nnoremap <silent> <Leader>s mp:%s/\v\s+$//<CR>:nohl<CR>`p
 nnoremap <silent> <Leader><Leader> :w<CR>
 nnoremap <Leader>nh :nohl<CR>
 
+" JSON Prettifier (Only works if python is installed in path)
+vmap <silent> <leader>json :!python -m json.tool<CR>
+
 " Swap and Backup files
 set nobackup
 set noswapfile
