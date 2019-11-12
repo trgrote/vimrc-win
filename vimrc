@@ -162,6 +162,9 @@ nnoremap <Leader>3 080i#<ESC>a<CR>#<Space>
 " I like folding Markers
 set foldmethod=marker
 
+" Set the spell window to something smaller
+set spellsuggest+=10
+
 " Stolen from Example vimrc
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
