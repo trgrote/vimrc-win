@@ -54,6 +54,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-perl/vim-perl', { 'for': 'perl', 'do': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny' }
 Plug 'vimwiki/vimwiki', { 'branch': 'dev' }
 Plug 'majutsushi/tagbar'
+Plug 'triglav/vim-visual-increment'
 
 " Initialize plugin system
 call plug#end()
