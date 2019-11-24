@@ -6,13 +6,13 @@
 " for the current machine (this should be in my vimrc file)
 function! s:LoadWikiFile()
 	" Fill 'er up
-	silent execute '-1read ' . g:vimfiles_dir . '/templates/skeleton.wiki'
+	silent execute '-1read ' . g:vimfiles_dir . '/templates/skeleton.md'
 endfunction
 
 " Replace text 'Title' in the current buffer with description is given
 function! s:ReplaceTitle(ticketNum, description)
 	" Run substitution on the buffer
-	silent execute "%s/PAGE_TITLE/" . "Ticket-" . a:ticketNum . ": " . a:description . "/g"
+	"silent execute "%s/PAGE_TITLE/" . "Ticket-" . a:ticketNum . ": " . a:description . "/g"
 	silent execute "%s/TITLE/" . a:description . "/g"
 endfunction
 
@@ -21,7 +21,7 @@ function! s:ReplaceStartDate()
 	" Run substitution on the buffer
 	let l:dateTime = strftime('%c')
 	" Format is MM/DD/YYYY and those '/' confuse the substitution process so we need to replace with with escaped characters
-	let l:subCommand = '%s/START_DATE/*' . substitute(l:dateTime, '/', '\\/', 'g') . '*/g'
+	let l:subCommand = '%s/START_DATE/' . substitute(l:dateTime, '/', '\\/', 'g') . '/g'
 	silent execute l:subCommand
 endfunction
 " }}}
@@ -38,7 +38,7 @@ function! ft#VimWikiHelpers#MakeTicketWithDesc(...)
 	endif
 
 	" Get Arguments
-	let skeletonFile = g:vimfiles_dir . '/templates/skeleton.wiki'
+	let skeletonFile = g:vimfiles_dir . '/templates/skeleton.md'
 	let ticketNum = a:1
 
 	" Description is the rest of the arguments joined together
@@ -47,13 +47,13 @@ function! ft#VimWikiHelpers#MakeTicketWithDesc(...)
 	let description = join(descriptionTokens, ' ')
 	let fullTicketName = printf("Ticket-%s", ticketNum)
 	let ticketFolderName = printf("Tickets/%s", fullTicketName)
-	let ticketFileName = printf("./%s.wiki", ticketFolderName)
+	let ticketFileName = printf("./%s.md", ticketFolderName)
 
 	" Find line that looks like this: '== Tickets =='
 	" And then insert a new line under that as a list item
-	let ticketsLineNum = search("== Tickets ==")
+	let ticketsLineNum = search("## Tickets")
 
-	execute printf("normal %dGo- [[Tickets/Ticket-%s|%s]]", ticketsLineNum, ticketNum, description)
+	execute printf("normal %dGo- [Tickets/Ticket-%s](%s)]]", ticketsLineNum, ticketNum, description)
 	write
 
 	" Create Folder with same name as Ticket

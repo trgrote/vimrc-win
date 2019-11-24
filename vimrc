@@ -292,15 +292,14 @@ nnoremap <leader>dt "=strftime('%c')<CR>gp
 " vimwiki/vimwiki {{{
 let g:vimwiki_list = [
 			\{
-			\'path'        : '~/vimwiki/mwl/',
-			\'index'       : 'index',
-			\'auto_tags'   : 1,
-			\'auto_toc'    : 1
+			\'path'      : '~/vimwiki/mwl/',
+			\'index'     : 'index',
+			\'syntax'    : 'markdown',
+			\'ext'       : '.md'
 			\}
 			\]
 
-let g:vimwiki_folding = ''
-let g:vimwiki_conceallevel = 2
+let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
 
 " Header Colors (stolen from http://www.eclipsecolorthemes.org/?view=theme&id=6093)
 hi VimwikiHeader1 guifg=#F92672
@@ -316,8 +315,10 @@ if has("autocmd")
 		au!
 		if has('win32')
 			autocmd BufNewFile *.wiki 0r ~/vimfiles/templates/skeleton.wiki
+			autocmd BufNewFile *.md 0r ~/vimfiles/templates/skeleton.md
 		else
 			autocmd BufNewFile *.wiki 0r ~/.vim/templates/skeleton.wiki
+			autocmd BufNewFile *.md 0r ~/.vim/templates/skeleton.md
 		endif
 	augroup end
 endif
