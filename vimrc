@@ -293,7 +293,7 @@ nnoremap <leader>dt "=strftime('%c')<CR>gp
 let g:vimwiki_list = [
 			\{
 			\'path'      : '~/vimwiki/mwl/',
-			\'index'     : 'index',
+			\'index'     : 'Home',
 			\'syntax'    : 'markdown',
 			\'ext'       : '.md'
 			\}

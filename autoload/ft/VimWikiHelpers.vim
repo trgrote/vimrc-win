@@ -53,7 +53,7 @@ function! ft#VimWikiHelpers#MakeTicketWithDesc(...)
 	" And then insert a new line under that as a list item
 	let ticketsLineNum = search("## Tickets")
 
-	execute printf("normal %dGo- [%s](Tickets/Ticket-%s)", ticketsLineNum, description, ticketNum)
+	execute printf("normal %dGo- [Ticket-%s: %s](Tickets/Ticket-%s)", ticketsLineNum, ticketNum, description, ticketNum)
 	write
 
 	" Create Folder with same name as Ticket
