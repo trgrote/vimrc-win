@@ -108,11 +108,17 @@ set number
 
 " Tab Settings for 4 spaces = tab ( use this for work )
 set tabstop=4 softtabstop=0 shiftwidth=4 noexpandtab copyindent nopreserveindent
+
 " Tab settings 1 tab = 1 tab character ( appears as 4 spaces wide ) ( use this
 " for pleasure )
 " set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
 set list
-set listchars=tab:>-,trail:•
+if has('win32')
+	set listchars=tab:>-,trail:•
+else
+	set listchars=tab:>-,trail:*
+endif
+
 " Disable weird background highlighting that happens for list characters
 hi SpecialKey guibg=NONE ctermbg=NONE
 
