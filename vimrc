@@ -38,9 +38,9 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'flazz/vim-colorschemes'
 Plug 'godlygeek/tabular'
 Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'majutsushi/tagbar'
 Plug 'mhinz/vim-startify'
 Plug 'mxw/vim-jsx'
-Plug 'pangloss/vim-javascript'
 Plug 'pangloss/vim-javascript'
 Plug 'qpkorr/vim-bufkill'
 Plug 'scrooloose/nerdcommenter'
@@ -49,12 +49,11 @@ Plug 'scrooloose/syntastic'
 Plug 'sickill/vim-monokai'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
+Plug 'triglav/vim-visual-increment'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-perl/vim-perl', { 'for': 'perl', 'do': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny' }
 Plug 'vimwiki/vimwiki', { 'branch': 'dev' }
-Plug 'majutsushi/tagbar'
-Plug 'triglav/vim-visual-increment'
 
 " Initialize plugin system
 call plug#end()
@@ -158,6 +157,9 @@ nnoremap <Leader>nh :nohl<CR>
 
 " JSON Prettifier (Only works if python is installed in path)
 vmap <silent> <leader>json :!python -m json.tool<CR>
+
+" Delete current buffer only works if you have tpope/vim-unimpaired
+inoremap <silent> <Leader>bd :BD<CR>
 
 " Swap and Backup files
 set nobackup
