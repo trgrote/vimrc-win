@@ -159,7 +159,7 @@ nnoremap <Leader>nh :nohl<CR>
 vmap <silent> <leader>json :!python -m json.tool<CR>
 
 " Delete current buffer only works if you have tpope/vim-unimpaired
-inoremap <silent> <Leader>bd :BD<CR>
+nnoremap <silent> <Leader>bd :BD<CR>
 
 " Swap and Backup files
 set nobackup
