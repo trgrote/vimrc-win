@@ -38,7 +38,6 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'flazz/vim-colorschemes'
 Plug 'godlygeek/tabular'
 Plug 'junegunn/rainbow_parentheses.vim'
-Plug 'majutsushi/tagbar'
 Plug 'mhinz/vim-startify'
 Plug 'mxw/vim-jsx'
 Plug 'pangloss/vim-javascript'
@@ -344,16 +343,6 @@ autocmd VimEnter * call rainbow_parentheses#activate()
 
 " }}}
 
-" majutsushi/tagbar {{{
-let g:tagbar_type_vimwiki = {
-          \   'ctagstype':'vimwiki'
-          \ , 'kinds':['h:header']
-          \ , 'sro':'&&&'
-          \ , 'kind2scope':{'h':'header'}
-          \ , 'sort':0
-          \ , 'ctagsbin': g:vimfiles_dir . '/vwtags.py'
-          \ , 'ctagsargs': 'default'
-          \ }
 " }}}
 
 " End of Plugin Config }}}
