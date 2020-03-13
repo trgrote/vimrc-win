@@ -132,12 +132,6 @@ set lazyredraw   " Don't redraw after during a macro run
 " Set Mapleader
 let mapleader="\<Space>"
 
-" Buffer Navigation ( tired of this :bp shit )
-nnoremap <silent> <F11> :bp<CR>
-nnoremap <silent> <F12> :bn<CR>
-inoremap <silent> <F11> <ESC>:bp<CR>i
-inoremap <silent> <F12> <ESC>:bn<CR>i
-
 " Training Wheels ( disable arrow keys )
 nnoremap <up> <nop>
 nnoremap <down> <nop>
