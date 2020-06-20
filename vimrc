@@ -151,6 +151,10 @@ nnoremap <Leader>nh :nohl<CR>
 " JSON Prettifier (Only works if python is installed in path)
 vmap <silent> <leader>json :!python -m json.tool<CR>
 
+" Sql Prettifier requires the below python package
+" pip install sqlparse
+vmap <silent> <leader>sql :!sqlformat --reindent --keywords upper --identifiers lower -<CR>
+
 " Delete current buffer only works if you have tpope/vim-unimpaired
 nnoremap <silent> <Leader>bd :BD<CR>
 
@@ -166,6 +170,9 @@ set foldmethod=marker
 
 " Set the spell window to something smaller
 set spellsuggest+=10
+
+" Change splits to appear to the right (vertical)
+set splitright
 
 " Stolen from Example vimrc
 " Only do this part when compiled with support for autocommands.
@@ -208,6 +215,7 @@ let g:ctrlp_custom_ignore = {
 			\ 'dir':  '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$',
 			\ 'file': '\v\.(exe|so|dll|meta|csproj|sln|manifest|suo|pdb|user|jmconfig)$'
 			\ }
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 
 " Airline Config
 let g:airline#extensions#tabline#enabled = 1
