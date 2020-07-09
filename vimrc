@@ -158,6 +158,9 @@ vmap <silent> <leader>sql :!sqlformat --reindent --keywords upper --identifiers 
 " Delete current buffer only works if you have tpope/vim-unimpaired
 nnoremap <silent> <Leader>bd :BD<CR>
 
+" Bull kill all
+nnoremap <silent> <Leader>bka :.+,$bwipeout<CR>
+
 " Swap and Backup files
 set nobackup
 set noswapfile
