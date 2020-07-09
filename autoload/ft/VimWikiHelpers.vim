@@ -13,7 +13,7 @@ endfunction
 function! s:ReplaceTitle(ticketNum, description)
 	" Run substitution on the buffer
 	"silent execute "%s/PAGE_TITLE/" . "Ticket-" . a:ticketNum . ": " . a:description . "/g"
-	silent execute "%s/TITLE/" . a:description . "/g"
+	silent execute "%s/TITLE/Ticket-" . a:ticketNum . ": " . a:description . "/g"
 endfunction
 
 " Replace start date with actual current start date
