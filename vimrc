@@ -312,6 +312,7 @@ let g:vimwiki_list = [
 			\]
 
 let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
+let g:vimwiki_folding = 'expr'
 
 " Header Colors (stolen from http://www.eclipsecolorthemes.org/?view=theme&id=6093)
 hi VimwikiHeader1 guifg=#F92672
