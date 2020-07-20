@@ -47,21 +47,21 @@ function! ft#VimWikiHelpers#MakeTicketWithDesc(...)
 	let description = join(descriptionTokens, ' ')
 	let fullTicketName = printf("Ticket-%s", ticketNum)
 	let ticketFolderName = printf("Tickets/%s", fullTicketName)
-	let ticketFileName = printf("./%s.md", ticketFolderName)
+	let ticketFileName = printf("%s/%s.md", ticketFolderName, fullTicketName)
+
+	" Create Folder with same name as Ticket
+	call mkdir(ticketFolderName, "p")
 
 	" Find line that looks like this: '== Tickets =='
 	" And then insert a new line under that as a list item
 	let ticketsLineNum = search("## Tickets")
 
 	" The O will automatically prepend a '- ' if this body is a bulleted list
-	execute printf("normal %dG}O[Ticket-%s: %s](Tickets/Ticket-%s)", ticketsLineNum, ticketNum, description, ticketNum)
+	execute printf("normal %dG}O[Ticket-%s: %s](%s)", ticketsLineNum, ticketNum, description, ticketFileName)
 	write
 
-	" Create Folder with same name as Ticket
-	call mkdir(ticketFolderName, "p")
-
 	" Create/open new file if it doesn't exist
-	silent execute "e " . ticketFileName
+	silent execute "e ./" . ticketFileName
 
 	" Autopopulate file with command arguments
 	call s:ReplaceTitle(ticketNum, description)
