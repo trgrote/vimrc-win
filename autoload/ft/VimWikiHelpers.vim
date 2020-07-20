@@ -54,7 +54,7 @@ function! ft#VimWikiHelpers#MakeTicketWithDesc(...)
 	let ticketsLineNum = search("## Tickets")
 
 	" The O will automatically prepend a '- ' if this body is a bulleted list
-	execute printf("normal %dG}O [Ticket-%s: %s](Tickets/Ticket-%s)", ticketsLineNum, ticketNum, description, ticketNum)
+	execute printf("normal %dG}O[Ticket-%s: %s](Tickets/Ticket-%s)", ticketsLineNum, ticketNum, description, ticketNum)
 	write
 
 	" Create Folder with same name as Ticket
