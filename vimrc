@@ -78,7 +78,7 @@ set laststatus=2
 set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}
 "Set Color Scheme and Font Options
 colorscheme monokai
-set guifont=Consolas:h10
+set guifont=Consolas:h11
 "set line no, buffer, search, highlight, autoindent and more.
 set hidden
 
