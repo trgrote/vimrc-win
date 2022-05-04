@@ -355,6 +355,4 @@ autocmd VimEnter * call rainbow_parentheses#activate()
 
 " }}}
 
-" }}}
-
 " End of Plugin Config }}}
