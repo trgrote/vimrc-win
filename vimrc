@@ -208,6 +208,12 @@ else
 	set autoindent		" always set autoindenting on
 endif " has("autocmd")
 
+" Add show current folder in explorer command
+if has('win32')
+	" Open file explorer in the current file's directory
+	command! ShowInExplorer execute 'silent !start /b explorer ' . expand('%:p:h')
+endif
+
 " Plugin Configurations {{{
 
 " CtrlP Options
