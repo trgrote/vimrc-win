@@ -52,7 +52,9 @@ Plug 'triglav/vim-visual-increment'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-perl/vim-perl', { 'for': 'perl', 'do': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny' }
-Plug 'vimwiki/vimwiki', { 'branch': 'dev' }
+if has('win32')
+	Plug 'vimwiki/vimwiki', { 'branch': 'dev' }
+endif
 
 " Initialize plugin system
 call plug#end()
