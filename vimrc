@@ -216,6 +216,12 @@ if has('win32')
 	command! ShowInExplorer execute 'silent !start /b explorer ' . expand('%:p:h')
 endif
 
+" Open a new file in the same directory as the current file
+command! -nargs=1 NewFile call s:NewFile(<q-args>)
+function! s:NewFile(fp)
+	execute "e " . expand("%:h") . "/" . a:fp
+endfunction
+
 " Plugin Configurations {{{
 
 " CtrlP Options
