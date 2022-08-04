@@ -10,10 +10,9 @@ function! s:LoadWikiFile()
 endfunction
 
 " Replace text 'Title' in the current buffer with description is given
-function! s:ReplaceTitle(ticketNum, description)
+function! s:ReplaceTitle(ticketId, description)
 	" Run substitution on the buffer
-	"silent execute "%s/PAGE_TITLE/" . "Ticket-" . a:ticketNum . ": " . a:description . "/g"
-	silent execute "%s/TITLE/Ticket-" . a:ticketNum . ": " . a:description . "/g"
+	silent execute "%s/TITLE/" . a:ticketId . ": " . a:description . "/g"
 endfunction
 
 " Replace start date with actual current start date
@@ -39,15 +38,14 @@ function! ft#VimWikiHelpers#MakeTicketWithDesc(...)
 
 	" Get Arguments
 	let skeletonFile = g:vimfiles_dir . '/templates/skeleton.md'
-	let ticketNum = a:1
+	let ticketId = a:1
 
 	" Description is the rest of the arguments joined together
 	let descriptionTokens = map(copy(a:000[1:-1]), { key, val -> substitute(v:val, "[#/-]", "", "g") })
 	call filter(descriptionTokens, 'v:val != ""')   " Remove empty tokens
 	let description = join(descriptionTokens, ' ')
-	let fullTicketName = printf("Ticket-%s", ticketNum)
-	let ticketFolderName = printf("Tickets/%s", fullTicketName)
-	let ticketFileName = printf("%s/%s.md", ticketFolderName, fullTicketName)
+	let ticketFolderName = printf("Tickets/%s", ticketId)
+	let ticketFileName = printf("%s/%s.md", ticketFolderName, ticketId)
 
 	" Create Folder with same name as Ticket
 	call mkdir(ticketFolderName, "p")
@@ -57,14 +55,14 @@ function! ft#VimWikiHelpers#MakeTicketWithDesc(...)
 	let ticketsLineNum = search("## Tickets")
 
 	" The O will automatically prepend a '- ' if this body is a bulleted list
-	execute printf("normal %dG}O[Ticket-%s: %s](%s)", ticketsLineNum, ticketNum, description, ticketFileName)
+	execute printf("normal %dG}O[%s: %s](%s)", ticketsLineNum, ticketId, description, ticketFileName)
 	write
 
 	" Create/open new file if it doesn't exist
 	silent execute "e ./" . ticketFileName
 
 	" Autopopulate file with command arguments
-	call s:ReplaceTitle(ticketNum, description)
+	call s:ReplaceTitle(ticketId, description)
 	call s:ReplaceStartDate()
 	write
 endfunction
