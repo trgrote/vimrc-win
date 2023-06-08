@@ -54,6 +54,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-perl/vim-perl', { 'for': 'perl', 'do': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny' }
 if has('win32')
 	Plug 'vimwiki/vimwiki', { 'branch': 'dev' }
+	Plug 'mattn/calendar-vim'
 endif
 
 " Initialize plugin system
@@ -341,14 +342,94 @@ if has("autocmd")
 	augroup wiki_templates
 		au!
 		if has('win32')
-			autocmd BufNewFile *.wiki 0r ~/vimfiles/templates/skeleton.wiki
 			autocmd BufNewFile *.md 0r ~/vimfiles/templates/skeleton.md
 		else
-			autocmd BufNewFile *.wiki 0r ~/.vim/templates/skeleton.wiki
 			autocmd BufNewFile *.md 0r ~/.vim/templates/skeleton.md
 		endif
 	augroup end
 endif
+
+let g:calendar_diary=$HOME.'/vimwiki/mwl/diary'
+
+function! s:findIndex(values, Expr)
+	let currentIndex = 0
+
+	while currentIndex < len(a:values)
+		let value = a:values[currentIndex]
+		if a:Expr(value) > 0
+			return currentIndex
+		endif
+		let currentIndex = currentIndex + 1
+	endwhile
+
+	return -1
+endfunction
+
+function! s:GetPreviousTODOS(currentDayFileName)
+	let diaryFiles = readdir(g:calendar_diary, {n -> n =~ '^\d\{4\}-\d\{2\}-\d\{2\}.md$'})
+
+	" Insert the current day's file (which probably doesn't exist yet) in order to split the list between previous days and future days
+	let appendedDiaryFiles = add(copy(diaryFiles), a:currentDayFileName)
+	call sort(appendedDiaryFiles)
+	call uniq(appendedDiaryFiles)
+
+	let currentDayIndex = index(appendedDiaryFiles, a:currentDayFileName)   " returns -1 if not found
+
+	let previousDiaries = slice(appendedDiaryFiles, 0, currentDayIndex)
+
+	" If no Previous Diaries found
+	if len(previousDiaries) == 0
+		return ["- [ ] "]
+	endif
+
+	let previousDiary = previousDiaries[-1]
+
+	" Read in previous day diary
+	let previousDiaryContent = readfile(g:calendar_diary . "/" . previousDiary)
+
+	" Isolate TODO section
+	let todoStart = index(previousDiaryContent, "## TODO")
+
+	" If no TODO Found in previous diary or it's the last line in the file
+	if todoStart == -1 || todoStart + 1 >= len(previousDiaryContent)
+		return ["- [ ] "]
+	endif
+
+	let todoEnd = s:findIndex(previousDiaryContent[todoStart + 1:], {l -> l =~ '^## '})
+
+	" If we couldn't find the end of the todo section, that means it's just the end of the file
+	let todoEnd = todoEnd == -1 ? len(previousDiaryContent) : (todoStart + 1 + todoEnd)
+	let todoSection = slice(previousDiaryContent, todoStart + 1, todoEnd)
+
+	" Only grab incomplete things
+	call filter(todoSection, {idx, val -> val =~ '- \[[^X]\]'})
+
+	" Change every non empty checkbox with an empty checkbox
+	call map(todoSection, {idx, val -> substitute(val, '- \[[^X]\]', '- [ ]', '')})
+
+	return todoSection
+endfunction
+
+function! s:AppendPreviousTODO(fileName)
+	let prevTodoLines = s:GetPreviousTODOS(a:fileName)
+	call append(line('$'), prevTodoLines)
+endfunction
+
+" Vimwiki Diary autoindexing when visiting index page
+augroup vimwikigroup
+	autocmd!
+	" automatically update links on read diary
+	autocmd BufRead,BufNewFile diary.md VimwikiDiaryGenerateLinks
+
+	" Override default Wiki page with the Diary format and replace the DATE
+	" placeholder with the file name w/o extension
+	autocmd BufNewFile */diary/*.md %d
+				\ | 0r ~/vimfiles/templates/skeleton.diary.md
+				\ | $d
+				\ | %s/DATE/\=expand('%:t:r')/g
+				\ | call s:AppendPreviousTODO(expand('%:t'))
+				\ | $
+augroup end
 
 " }}}
 

@@ -1,5 +1,8 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =3
+let g:netrw_dirhistcnt =6
+let g:netrw_dirhist_6='C:\Users\trg5\vimwiki\mwl\Tickets\SD-1061'
+let g:netrw_dirhist_5='C:\Users\trg5\vimwiki\mwl\Tickets\SD-1205'
+let g:netrw_dirhist_4='C:\Users\trg5\vimwiki\mwl\Tickets\SD-125'
 let g:netrw_dirhist_3='C:\Users\trg5\vimwiki\mwl\Tickets\Ticket-11088'
 let g:netrw_dirhist_2='C:\Users\trg5\vimwiki\mwl\Tickets\Ticket-10585'
 let g:netrw_dirhist_1='C:\Users\trg5\vimwiki\mwl\Tickets\Ticket-9961'
