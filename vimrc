@@ -440,9 +440,8 @@ augroup vimwikigroup
 				\ | $d
 				\ | %s/DATE/\=expand('%:t:r')/g
 				\ | call s:AppendPreviousTODO(expand('%:t'))
-				\ | $
 				\ | call append(line('$'), "")
-				\ | norm $
+				\ | normal Gk$
 augroup end
 
 " }}}
