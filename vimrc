@@ -54,7 +54,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-perl/vim-perl', { 'for': 'perl', 'do': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny' }
 if has('win32')
 	Plug 'vimwiki/vimwiki', { 'branch': 'dev' }
-	Plug 'mattn/calendar-vim'
+	Plug 'trgrote/calendar-vim'
 endif
 
 " Initialize plugin system
@@ -81,7 +81,7 @@ set laststatus=2
 set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}
 "Set Color Scheme and Font Options
 colorscheme monokai
-set guifont=Consolas:h11
+set guifont=Consolas:h13
 "set line no, buffer, search, highlight, autoindent and more.
 set hidden
 
@@ -351,6 +351,12 @@ endif
 
 let g:calendar_diary=$HOME.'/vimwiki/mwl/diary'
 
+function CloseCalendarBuffer(day, month, year, week, dir)
+	bwipeout! __Calendar
+endfunction
+
+let g:calendar_action_end = "CloseCalendarBuffer"
+
 function! s:findIndex(values, Expr)
 	let currentIndex = 0
 
@@ -367,6 +373,7 @@ endfunction
 
 function! s:GetPreviousTODOS(currentDayFileName)
 	let diaryFiles = readdir(g:calendar_diary, {n -> n =~ '^\d\{4\}-\d\{2\}-\d\{2\}.md$'})
+	let defaultReturn = ["- [ ] "]
 
 	" Insert the current day's file (which probably doesn't exist yet) in order to split the list between previous days and future days
 	let appendedDiaryFiles = add(copy(diaryFiles), a:currentDayFileName)
@@ -379,7 +386,7 @@ function! s:GetPreviousTODOS(currentDayFileName)
 
 	" If no Previous Diaries found
 	if len(previousDiaries) == 0
-		return ["- [ ] "]
+		return defaultReturn
 	endif
 
 	let previousDiary = previousDiaries[-1]
@@ -392,7 +399,7 @@ function! s:GetPreviousTODOS(currentDayFileName)
 
 	" If no TODO Found in previous diary or it's the last line in the file
 	if todoStart == -1 || todoStart + 1 >= len(previousDiaryContent)
-		return ["- [ ] "]
+		return defaultReturn
 	endif
 
 	let todoEnd = s:findIndex(previousDiaryContent[todoStart + 1:], {l -> l =~ '^## '})
@@ -404,10 +411,15 @@ function! s:GetPreviousTODOS(currentDayFileName)
 	" Only grab incomplete things
 	call filter(todoSection, {idx, val -> val =~ '- \[[^X]\]'})
 
+	" Return
+	if len(todoSection) == 0
+		return defaultReturn
+	endif
+
 	" Change every non empty checkbox with an empty checkbox
 	call map(todoSection, {idx, val -> substitute(val, '- \[[^X]\]', '- [ ]', '')})
 
-	return todoSection
+	return todoSection + defaultReturn
 endfunction
 
 function! s:AppendPreviousTODO(fileName)
@@ -429,6 +441,8 @@ augroup vimwikigroup
 				\ | %s/DATE/\=expand('%:t:r')/g
 				\ | call s:AppendPreviousTODO(expand('%:t'))
 				\ | $
+				\ | call append(line('$'), "")
+				\ | norm $
 augroup end
 
 " }}}
