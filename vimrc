@@ -1,3 +1,7 @@
+" TODO
+" - Update startify to automatically close NERDTree if it's open.
+"   Saving/opening a seesion with NERDtree breaks stuff
+
 " Vim Home Directory is different depending on which OS we're in {{{
 let g:vimfiles_dir = '~/.vim'
 if has('win32')
@@ -223,6 +227,15 @@ function! s:NewFile(fp)
 	execute "e " . expand("%:h") . "/" . a:fp
 endfunction
 
+" Ignore node modules
+set wildignore=*/node_modules/*
+
+" Add special (not confusing and stupid) grep search
+command! -nargs=* Search call search#search(<q-args>)
+
+nnoremap <silent> <Leader>lo :lopen<CR>
+nnoremap <silent> <Leader>lc :lclose<CR>
+
 " Plugin Configurations {{{
 
 " CtrlP Options
@@ -388,3 +401,4 @@ autocmd VimEnter * call rainbow_parentheses#activate()
 " }}}
 
 " End of Plugin Config }}}
+
