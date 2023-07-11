@@ -11,11 +11,15 @@ function! search#search(search_pattern) abort
 	" If the pattern does not start with a '/', then we'll assume that a
 	" literal search is intended and enclose and escape it:
 	if match(pattern, '^/') == -1
-		let pattern = '/'.escape(pattern, '\').'/j'
+		let pattern = '/' . escape(pattern, '\') . '/'
 	endif
 
 	let path = fnameescape(getcwd())
-	let cmd  = 'noautocmd lvimgrep ' . pattern . ' ' . path . '**'
+
+	" Include j to not automatically do to the first match.
+	" Without this, the first match file would be opened with no syntax
+	" highlighting (since noautocmd stops autocmds from running)
+	let cmd  = 'noautocmd lvimgrep ' . pattern . 'j ' . path . '**'
 
 	" Catch E480 error from lvimgrep if there's no match and present
 	" a friendlier error message.
