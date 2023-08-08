@@ -228,7 +228,7 @@ function! s:NewFile(fp)
 endfunction
 
 " Ignore node modules
-set wildignore=*/node_modules/*
+set wildignore=*/node_modules/*,*/vendor/*
 
 " Add special (not confusing and stupid) grep search
 command! -nargs=* Search call search#search(<q-args>)
