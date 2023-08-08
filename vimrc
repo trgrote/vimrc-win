@@ -1,6 +1,6 @@
 " TODO
-" - Update startify to automatically close NERDTree if it's open.
-"   Saving/opening a seesion with NERDtree breaks stuff
+" - Make fancy macro to run number of times equal to the number of lines in a
+"   given motion.
 
 " Vim Home Directory is different depending on which OS we're in {{{
 let g:vimfiles_dir = '~/.vim'
@@ -261,6 +261,7 @@ let g:startify_session_delete_buffers = 1    " Delete Opened buffers for changin
 let g:startify_session_persistence    = 1    " Save Current Session on close/switch
 let g:startify_enable_special         = 0    " Don't show the empty buffer and quit options on start screen
 let g:startify_list_order             = [ 'sessions', 'files', 'bookmarks', 'dir' ]
+let g:startify_session_before_save    = [ 'silent! tabdo NERDTreeClose' ]
 
 " Dumb function to center RMS's fat head
 function! s:filter_header(lines) abort
