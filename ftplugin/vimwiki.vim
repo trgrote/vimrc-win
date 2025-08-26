@@ -13,3 +13,13 @@ command! CalendarClose bwipeout! __Calendar
 
 set foldlevelstart=2
 
+" Replace weird quotes that jira sometimes puts in that will cause the gollum
+" wiki to crash
+augroup replacequotesgroup
+	autocmd!
+
+	" Pre Save, substitute all weird quotes with a normal double quote
+	" Do this for all occurrences in each line
+	" do not error if no weird quotes were found
+	autocmd BufWritePre *.md %s/[“”]/"/ge
+augroup end
