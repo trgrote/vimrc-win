@@ -22,4 +22,5 @@ augroup replacequotesgroup
 	" Do this for all occurrences in each line
 	" do not error if no weird quotes were found
 	autocmd BufWritePre *.md %s/[“”]/"/ge
+	autocmd BufWritePre *.md %s/[‘’]/'/ge
 augroup end
