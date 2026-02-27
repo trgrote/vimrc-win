@@ -45,7 +45,7 @@ function! ft#VimWikiHelpers#MakeTicketWithDesc(...)
 	call filter(descriptionTokens, 'v:val != ""')   " Remove empty tokens
 	let description = join(descriptionTokens, ' ')
 	let ticketFolderName = printf("Tickets/%s", ticketId)
-	let ticketFileName = printf("%s/%s.md", ticketFolderName, ticketId)
+	let ticketFileName = printf("/%s/%s.md", ticketFolderName, ticketId)
 
 	" Create Folder with same name as Ticket
 	call mkdir(ticketFolderName, "p")

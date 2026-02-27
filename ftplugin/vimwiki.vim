@@ -21,6 +21,7 @@ augroup replacequotesgroup
 	" Pre Save, substitute all weird quotes with a normal double quote
 	" Do this for all occurrences in each line
 	" do not error if no weird quotes were found
-	autocmd BufWritePre *.md %s/[“”]/"/ge
-	autocmd BufWritePre *.md %s/[‘’]/'/ge
+	" Had to run `:w ++enc=utf-8` to save
+	autocmd BufWritePre *.md %s/[â€œâ€]/"/ge
+	autocmd BufWritePre *.md %s/[Â‘Â’]/'/ge
 augroup end
