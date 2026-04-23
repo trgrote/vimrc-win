@@ -40,4 +40,4 @@ endfunction
 " Stop Flashing people
 set vb t_vb=
 
-set guifont=Consolas:h15
+set guifont=Consolas:h18
