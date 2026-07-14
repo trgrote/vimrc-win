@@ -25,6 +25,24 @@ function! s:ReplaceStartDate()
 endfunction
 " }}}
 
+" Create the folder that a ticket's file lives in (e.g. "Tickets/SD-5619")
+function! s:MakeTicketFolder(ticketId) abort
+	let l:ticketFolderName = printf("Tickets/%s", a:ticketId)
+	call mkdir(l:ticketFolderName, "p")
+	return l:ticketFolderName
+endfunction
+
+" Insert a new link under the current wiki page's '## Tickets' heading and save it
+function! s:InsertTicketLink(ticketId, description, ticketFileName) abort
+	" Find line that looks like this: '== Tickets =='
+	" And then insert a new line under that as a list item
+	let l:ticketsLineNum = search("## Tickets")
+
+	" The O will automatically prepend a '- ' if this body is a bulleted list
+	execute printf("normal %dG}O[%s: %s](%s)", l:ticketsLineNum, a:ticketId, a:description, a:ticketFileName)
+	write
+endfunction
+
 " Function designed for the main wiki page that will add a new wiki page link
 " arguments:
 " 1 = Ticket Number
@@ -44,19 +62,10 @@ function! ft#VimWikiHelpers#MakeTicketWithDesc(...)
 	let descriptionTokens = map(copy(a:000[1:-1]), { key, val -> substitute(v:val, "[#/-]", "", "g") })
 	call filter(descriptionTokens, 'v:val != ""')   " Remove empty tokens
 	let description = join(descriptionTokens, ' ')
-	let ticketFolderName = printf("Tickets/%s", ticketId)
+	let ticketFolderName = s:MakeTicketFolder(ticketId)
 	let ticketFileName = printf("/%s/%s.md", ticketFolderName, ticketId)
 
-	" Create Folder with same name as Ticket
-	call mkdir(ticketFolderName, "p")
-
-	" Find line that looks like this: '== Tickets =='
-	" And then insert a new line under that as a list item
-	let ticketsLineNum = search("## Tickets")
-
-	" The O will automatically prepend a '- ' if this body is a bulleted list
-	execute printf("normal %dG}O[%s: %s](%s)", ticketsLineNum, ticketId, description, ticketFileName)
-	write
+	call s:InsertTicketLink(ticketId, description, ticketFileName)
 
 	" Create/open new file if it doesn't exist
 	silent execute "e ./" . ticketFileName
@@ -65,6 +74,196 @@ function! ft#VimWikiHelpers#MakeTicketWithDesc(...)
 	call s:ReplaceTitle(ticketId, description)
 	call s:ReplaceStartDate()
 	write
+endfunction
+
+" --- Jira URL parsing -------------------------------------------------------
+" Returns [host, issueKey], or ['', ''] if the url doesn't look like a Jira
+" issue link (e.g. https://midwestlabs.atlassian.net/browse/SD-5619)
+function! s:ParseJiraUrl(url) abort
+	let l:m = matchlist(a:url, '^https\?://\([^/]\+\)/browse/\(\w\+-\d\+\)')
+	if empty(l:m)
+		return ['', '']
+	endif
+	return [l:m[1], l:m[2]]
+endfunction
+
+" --- Jira REST API v3 fetch -------------------------------------------------
+" Uses `curl -K -` (config read from stdin) so the URL/auth never pass through
+" cmd.exe's own argument parsing or show up in a process listing.
+function! s:FetchJiraIssue(host, key) abort
+	if empty($JIRA_EMAIL) || empty($JIRA_API_TOKEN)
+		echo 'NewJiraTicket: set $JIRA_EMAIL and $JIRA_API_TOKEN environment variables first.'
+		return {}
+	endif
+
+	let l:apiUrl = printf('https://%s/rest/api/3/issue/%s?fields=summary,description', a:host, a:key)
+	let l:curlConfig = 'url = "' . l:apiUrl . '"' . "\n"
+				\ . 'header = "Accept: application/json"' . "\n"
+				\ . 'user = "' . $JIRA_EMAIL . ':' . $JIRA_API_TOKEN . '"' . "\n"
+
+	let l:response = system('curl -s -K -', l:curlConfig)
+	if v:shell_error != 0
+		echo 'NewJiraTicket: curl failed to run (is curl installed and on PATH?).'
+		return {}
+	endif
+
+	try
+		let l:decoded = json_decode(l:response)
+	catch
+		echo 'NewJiraTicket: could not parse the Jira response as JSON.'
+		return {}
+	endtry
+
+	if type(l:decoded) == v:t_dict && has_key(l:decoded, 'errorMessages')
+		echo 'NewJiraTicket: Jira error - ' . join(l:decoded.errorMessages, '; ')
+		return {}
+	endif
+	return l:decoded
+endfunction
+
+" --- ADF (Atlassian Document Format) -> plain lines -------------------------
+" Not a full ADF renderer - handles the common cases (paragraphs, headings,
+" hard breaks, links, bullet/ordered lists) and best-effort flattens anything
+" else (tables, panels, media, ...) rather than crashing on them.
+function! s:AdfInlineToText(node) abort
+	if type(a:node) != v:t_dict
+		return ''
+	endif
+	let l:type = get(a:node, 'type', '')
+	if l:type ==# 'text'
+		let l:text = get(a:node, 'text', '')
+		for l:mark in get(a:node, 'marks', [])
+			if type(l:mark) == v:t_dict && get(l:mark, 'type', '') ==# 'link'
+				let l:href = get(get(l:mark, 'attrs', {}), 'href', '')
+				if !empty(l:href)
+					let l:text = printf('[%s](%s)', l:text, l:href)
+				endif
+			endif
+		endfor
+		return l:text
+	elseif l:type ==# 'hardBreak'
+		return "\n"
+	elseif has_key(a:node, 'content') && type(a:node.content) == v:t_list
+		return join(map(copy(a:node.content), 's:AdfInlineToText(v:val)'), '')
+	else
+		return ''
+	endif
+endfunction
+
+function! s:AdfBlockToLines(node) abort
+	if type(a:node) != v:t_dict
+		return []
+	endif
+	let l:type = get(a:node, 'type', '')
+	if l:type ==# 'paragraph' || l:type ==# 'heading'
+		let l:text = join(map(copy(get(a:node, 'content', [])), 's:AdfInlineToText(v:val)'), '')
+		return split(l:text, "\n", 1)
+	elseif l:type ==# 'bulletList' || l:type ==# 'orderedList'
+		let l:lines = []
+		let l:num = 1
+		for l:item in get(a:node, 'content', [])
+			let l:itemLines = []
+			for l:child in get(l:item, 'content', [])
+				call extend(l:itemLines, s:AdfBlockToLines(l:child))
+			endfor
+			if !empty(l:itemLines)
+				let l:prefix = l:type ==# 'bulletList' ? '- ' : (l:num . '. ')
+				call add(l:lines, l:prefix . l:itemLines[0])
+				call extend(l:lines, map(l:itemLines[1:], '"  " . v:val'))
+			endif
+			let l:num += 1
+		endfor
+		return l:lines
+	elseif has_key(a:node, 'content') && type(a:node.content) == v:t_list
+		let l:lines = []
+		for l:child in a:node.content
+			call extend(l:lines, s:AdfBlockToLines(l:child))
+		endfor
+		return l:lines
+	else
+		return []
+	endif
+endfunction
+
+function! s:AdfDocToLines(doc) abort
+	if type(a:doc) != v:t_dict || get(a:doc, 'type', '') !=# 'doc'
+		return []
+	endif
+	let l:blocks = []
+	for l:node in get(a:doc, 'content', [])
+		let l:blockLines = s:AdfBlockToLines(l:node)
+		if !empty(l:blockLines)
+			call add(l:blocks, l:blockLines)
+		endif
+	endfor
+	let l:result = []
+	for l:i in range(len(l:blocks))
+		if l:i > 0
+			call add(l:result, '')
+		endif
+		call extend(l:result, l:blocks[l:i])
+	endfor
+	return l:result
+endfunction
+
+function! s:AdfDocToLinesSafe(doc) abort
+	try
+		return s:AdfDocToLines(a:doc)
+	catch
+		echo 'NewJiraTicket: could not fully parse the Jira description; leaving it out.'
+		return []
+	endtry
+endfunction
+
+" --- File content ------------------------------------------------------------
+" Reuses only the static "## Research / ## Development / ## Go Live" tail of
+" templates/skeleton.md (everything after the START_DATE placeholder), so
+" editing that boilerplate keeps both commands in sync. The header/description
+" part is built directly since its shape differs from the plain-text skeleton,
+" and Jira-sourced text can contain regex-special characters that would break
+" the :substitute-based approach s:ReplaceTitle/s:ReplaceStartDate use.
+function! s:BuildJiraTicketLines(key, summary, url, descriptionLines) abort
+	let l:template = readfile(expand(g:vimfiles_dir . '/templates/skeleton.md'))
+	let l:dateIdx = index(l:template, '**START_DATE**')
+	let l:boilerplateTail = l:dateIdx == -1 ? [] : l:template[l:dateIdx + 1 :]
+
+	let l:lines = [printf('# %s: %s', a:key, a:summary), '', '## Description', '',
+				\ printf('- Creation Time: **%s**', strftime('%#m/%#d/%Y %#I:%M:%S %p')),
+				\ printf('- %s', a:url)]
+	if !empty(a:descriptionLines)
+		call add(l:lines, '')
+		call extend(l:lines, a:descriptionLines)
+	endif
+	call extend(l:lines, l:boilerplateTail)
+	return l:lines
+endfunction
+
+" Create a new ticket file/folder populated from a Jira issue, and link it
+" from the current wiki page's '## Tickets' heading, e.g.:
+"   :NewJiraTicket https://midwestlabs.atlassian.net/browse/SD-5619
+function! ft#VimWikiHelpers#MakeTicketFromJira(url) abort
+	let [l:host, l:key] = s:ParseJiraUrl(a:url)
+	if empty(l:key)
+		echo 'NewJiraTicket: could not find a Jira issue key in url: ' . a:url
+		return
+	endif
+
+	let l:issue = s:FetchJiraIssue(l:host, l:key)
+	if empty(l:issue)
+		return
+	endif
+
+	let l:fields = get(l:issue, 'fields', {})
+	let l:summary = get(l:fields, 'summary', l:key)
+	let l:descriptionLines = s:AdfDocToLinesSafe(get(l:fields, 'description', {}))
+
+	let l:ticketFolderName = s:MakeTicketFolder(l:key)
+	let l:ticketFileName = printf('%s/%s.md', l:ticketFolderName, l:key)
+
+	call s:InsertTicketLink(l:key, l:summary, l:ticketFileName)
+
+	call writefile(s:BuildJiraTicketLines(l:key, l:summary, a:url, l:descriptionLines), l:ticketFileName)
+	silent execute 'e ./' . l:ticketFileName
 endfunction
 
 function! s:findIndex(values, Expr)
