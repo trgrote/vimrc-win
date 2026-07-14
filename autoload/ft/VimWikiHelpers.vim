@@ -90,6 +90,22 @@ endfunction
 " --- Jira REST API v3 fetch -------------------------------------------------
 " Uses `curl -K -` (config read from stdin) so the URL/auth never pass through
 " cmd.exe's own argument parsing or show up in a process listing.
+"
+" Requires $JIRA_EMAIL and $JIRA_API_TOKEN to be set in the environment:
+"   1. Log into https://id.atlassian.com/manage-profile/security/api-tokens
+"      (with the same Atlassian account you use for midwestlabs.atlassian.net)
+"      and click "Create API token". Copy it immediately - it's only shown once.
+"   2. Set two Windows environment variables:
+"        JIRA_EMAIL       - the email address on that Atlassian account
+"        JIRA_API_TOKEN   - the token you just copied
+"      Either via System Properties > Environment Variables, or from a
+"      terminal: `setx JIRA_EMAIL "you@example.com"` and
+"      `setx JIRA_API_TOKEN "<token>"`.
+"   3. New/changed environment variables are only picked up by processes
+"      started AFTER they're set - existing terminals/GVim windows won't see
+"      them. Log off and back on (or reboot) so Explorer-launched apps like
+"      GVim inherit the new values; simply opening a new window is often not
+"      enough, since it may still inherit Explorer's stale environment.
 function! s:FetchJiraIssue(host, key) abort
 	if empty($JIRA_EMAIL) || empty($JIRA_API_TOKEN)
 		echo 'NewJiraTicket: set $JIRA_EMAIL and $JIRA_API_TOKEN environment variables first.'
