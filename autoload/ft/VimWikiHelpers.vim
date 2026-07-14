@@ -243,7 +243,7 @@ function! s:BuildJiraTicketLines(key, summary, url, descriptionLines) abort
 	let l:dateIdx = index(l:template, '**START_DATE**')
 	let l:boilerplateTail = l:dateIdx == -1 ? [] : l:template[l:dateIdx + 1 :]
 
-	let l:lines = [printf('# %s: %s', a:key, a:summary), '', '## Description', '',
+	let l:lines = [printf('# %s: %s', a:key, a:summary), '', '## Description',
 				\ printf('- Creation Time: **%s**', strftime('%#m/%#d/%Y %#I:%M:%S %p')),
 				\ printf('- %s', a:url)]
 	if !empty(a:descriptionLines)
