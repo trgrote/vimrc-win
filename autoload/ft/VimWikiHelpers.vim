@@ -351,3 +351,31 @@ function! ft#VimWikiHelpers#AppendPreviousTODO(fileName)
 	let prevTodoLines = s:GetPreviousTODOS(a:fileName)
 	call append(line('$'), prevTodoLines)
 endfunction
+
+" Convert a range of '- ' unordered list lines (e.g. from a visual selection)
+" into a numbered list, preserving indentation. Tracks a stack of
+" [indent, counter] pairs so that each new nested block (deeper indentation)
+" restarts its numbering at 1, rather than one running counter per indent
+" depth that never resets.
+function! ft#VimWikiHelpers#ConvertToNumberedList(startLine, endLine) abort
+	let l:stack = []
+	for l:lnum in range(a:startLine, a:endLine)
+		let l:m = matchlist(getline(l:lnum), '^\(\s*\)-\s\+\(.*\)$')
+		if empty(l:m)
+			continue
+		endif
+		let [l:indent, l:rest] = l:m[1:2]
+
+		while !empty(l:stack) && len(l:stack[-1][0]) > len(l:indent)
+			call remove(l:stack, -1)
+		endwhile
+
+		if !empty(l:stack) && l:stack[-1][0] ==# l:indent
+			let l:stack[-1][1] += 1
+		else
+			call add(l:stack, [l:indent, 1])
+		endif
+
+		call setline(l:lnum, l:indent . l:stack[-1][1] . '. ' . l:rest)
+	endfor
+endfunction

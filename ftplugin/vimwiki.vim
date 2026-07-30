@@ -5,6 +5,9 @@ set spell
 command! -buffer -nargs=+ NewTicket call ft#VimWikiHelpers#MakeTicketWithDesc(<f-args>)
 command! -buffer -nargs=1 NewJiraTicket call ft#VimWikiHelpers#MakeTicketFromJira(<f-args>)
 
+" Convert a visually selected block of '- ' unordered list items into a numbered list
+command! -buffer -range ConvertToNumberedList call ft#VimWikiHelpers#ConvertToNumberedList(<line1>, <line2>)
+
 " Mapping to insert Date Time Stamp surrounded by ** as a newline, and then end on said newline
 nnoremap <silent><buffer> <Leader>ts i**<C-R>=strftime('%c')<CR>**<ESC>
 nnoremap <silent><buffer> <Leader>date a<C-R>=strftime('%F')<CR><ESC>
