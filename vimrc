@@ -118,7 +118,7 @@ set tabstop=4 softtabstop=0 shiftwidth=4 noexpandtab copyindent nopreserveindent
 " set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
 set list
 if has('win32')
-	set listchars=tab:>-,trail:•
+	set listchars=tab:>-,trail:·
 else
 	set listchars=tab:>-,trail:*
 endif
