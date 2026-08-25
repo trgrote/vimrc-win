@@ -63,9 +63,10 @@ function! ft#VimWikiHelpers#MakeTicketWithDesc(...)
 	call filter(descriptionTokens, 'v:val != ""')   " Remove empty tokens
 	let description = join(descriptionTokens, ' ')
 	let ticketFolderName = s:MakeTicketFolder(ticketId)
-	let ticketFileName = printf("/%s/%s.md", ticketFolderName, ticketId)
+	let ticketFileName = printf("%s/%s.md", ticketFolderName, ticketId)
+	let ticketLinkPath = '/' . ticketFileName
 
-	call s:InsertTicketLink(ticketId, description, ticketFileName)
+	call s:InsertTicketLink(ticketId, description, ticketLinkPath)
 
 	" Create/open new file if it doesn't exist
 	silent execute "e ./" . ticketFileName
@@ -275,8 +276,9 @@ function! ft#VimWikiHelpers#MakeTicketFromJira(url) abort
 
 	let l:ticketFolderName = s:MakeTicketFolder(l:key)
 	let l:ticketFileName = printf('%s/%s.md', l:ticketFolderName, l:key)
+	let l:ticketLinkPath = '/' . l:ticketFileName
 
-	call s:InsertTicketLink(l:key, l:summary, l:ticketFileName)
+	call s:InsertTicketLink(l:key, l:summary, l:ticketLinkPath)
 
 	call writefile(s:BuildJiraTicketLines(l:key, l:summary, a:url, l:descriptionLines), l:ticketFileName)
 	silent execute 'e ./' . l:ticketFileName
