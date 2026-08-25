@@ -373,9 +373,6 @@ let g:calendar_action_end = "CloseCalendarBuffer"
 " Vimwiki Diary autoindexing when visiting index page
 augroup vimwikigroup
 	autocmd!
-	" automatically update links on read diary
-	autocmd BufRead,BufNewFile diary.md VimwikiDiaryGenerateLinks
-
 	" Override default Wiki page with the Diary format and replace the DATE
 	" placeholder with the file name w/o extension
 	autocmd BufNewFile */diary/*.md %d
@@ -384,6 +381,7 @@ augroup vimwikigroup
 				\ | %s/DATE/\=expand('%:t:r')/g
 				\ | call ft#VimWikiHelpers#AppendPreviousTODO(expand('%:t'))
 				\ | call append(line('$'), "")
+				\ | call ft#VimWikiHelpers#UpdateDiaryIndex()
 				\ | normal Gk$
 augroup end
 

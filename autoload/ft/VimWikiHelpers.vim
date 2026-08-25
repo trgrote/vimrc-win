@@ -354,6 +354,23 @@ function! ft#VimWikiHelpers#AppendPreviousTODO(fileName)
 	call append(line('$'), prevTodoLines)
 endfunction
 
+" Regenerate the vimwiki diary index (diary.md) so it links the current
+" buffer's diary entry, then save and close the index without disturbing
+" the calling window. Must be called from within a diary entry buffer
+" (e.g. the BufNewFile */diary/*.md autocmd in vimrc when a new diary page
+" is created), since the entry has to exist on disk for
+" VimwikiDiaryGenerateLinks' file scan to pick it up.
+function! ft#VimWikiHelpers#UpdateDiaryIndex()
+	silent update
+	split
+	silent VimwikiDiaryIndex
+	VimwikiDiaryGenerateLinks
+	silent write
+	let l:diary_bufnr = bufnr('%')
+	close
+	execute 'bwipeout ' . l:diary_bufnr
+endfunction
+
 " Convert a range of '- ' unordered list lines (e.g. from a visual selection)
 " into a numbered list, preserving indentation. Tracks a stack of
 " [indent, counter] pairs so that each new nested block (deeper indentation)
