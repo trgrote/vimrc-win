@@ -64,7 +64,7 @@ function! ft#VimWikiHelpers#MakeTicketWithDesc(...)
 	let description = join(descriptionTokens, ' ')
 	let ticketFolderName = s:MakeTicketFolder(ticketId)
 	let ticketFileName = printf("%s/%s.md", ticketFolderName, ticketId)
-	let ticketLinkPath = '/' . ticketFileName
+	let ticketLinkPath = printf("/%s/%s", ticketFolderName, ticketId)
 
 	call s:InsertTicketLink(ticketId, description, ticketLinkPath)
 
@@ -276,7 +276,7 @@ function! ft#VimWikiHelpers#MakeTicketFromJira(url) abort
 
 	let l:ticketFolderName = s:MakeTicketFolder(l:key)
 	let l:ticketFileName = printf('%s/%s.md', l:ticketFolderName, l:key)
-	let l:ticketLinkPath = '/' . l:ticketFileName
+	let l:ticketLinkPath = printf('/%s/%s', l:ticketFolderName, l:key)
 
 	call s:InsertTicketLink(l:key, l:summary, l:ticketLinkPath)
 
