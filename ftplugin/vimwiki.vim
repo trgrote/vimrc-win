@@ -29,4 +29,5 @@ augroup replacequotesgroup
 	autocmd BufWritePre *.md %s/[‘’]/'/ge
 	autocmd BufWritePre *.md %s/[“”]/"/ge
 	autocmd BufWritePre *.md %s/[]/'/ge
+	autocmd BufWritePre *.md %s/—/-/ge  " Replace em dash with normal dash
 augroup end
