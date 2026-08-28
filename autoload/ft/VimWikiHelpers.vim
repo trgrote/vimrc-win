@@ -284,6 +284,54 @@ function! ft#VimWikiHelpers#MakeTicketFromJira(url) abort
 	silent execute 'e ./' . l:ticketFileName
 endfunction
 
+" Shared logic: yank the text covered by a motion/text-object (or visual
+" selection) and re-paste it wrapped in the given string on both sides.
+function! s:DoSurround(type, wrapper) abort
+	" Preserve the user's 'selection' setting so it can be restored after
+	let l:sel_save = &selection
+	" Force inclusive selection so the visual yank below covers the full range
+	let &selection = "inclusive"
+	" Preserve the unnamed register's current contents so it can be restored after
+	let l:reg_save = @@
+
+	" Yank the text to be wrapped into the unnamed register: for a visual-mode
+	" call, re-select and yank the '<,'> marks; otherwise (operator-pending
+	" call) yank the '[,'] marks left behind by the motion/text-object
+	if a:type ==# 'v'
+		silent execute "normal! `<v`>y"
+	else
+		silent execute "normal! `[v`]y"
+	endif
+
+	" Wrap the yanked text in the given string on both sides
+	let @@ = a:wrapper . @@ . a:wrapper
+	" Re-select the same range and paste the wrapped text over it
+	normal! gvp
+
+	" Restore the original 'selection' setting
+	let &selection = l:sel_save
+	" Restore the unnamed register's original contents
+	let @@ = l:reg_save
+endfunction
+
+" Used as an operatorfunc via <Leader>fb, e.g. <Leader>fbiw wraps the word
+" under the cursor in '**' (markdown bold): place -> **place**
+function! ft#VimWikiHelpers#SurroundBold(type) abort
+	call s:DoSurround(a:type, '**')
+endfunction
+
+" Used as an operatorfunc via <Leader>fi, e.g. <Leader>fiiw wraps the word
+" under the cursor in '*' (markdown italic): place -> *place*
+function! ft#VimWikiHelpers#SurroundItalic(type) abort
+	call s:DoSurround(a:type, '*')
+endfunction
+
+" Used as an operatorfunc via <Leader>fs, e.g. <Leader>fsiw wraps the word
+" under the cursor in '~~' (markdown strikethrough): place -> ~~place~~
+function! ft#VimWikiHelpers#SurroundStrikethrough(type) abort
+	call s:DoSurround(a:type, '~~')
+endfunction
+
 function! s:findIndex(values, Expr)
 	let currentIndex = 0
 

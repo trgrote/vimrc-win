@@ -12,6 +12,18 @@ command! -buffer -range ConvertToNumberedList call ft#VimWikiHelpers#ConvertToNu
 nnoremap <silent><buffer> <Leader>ts i**<C-R>=strftime('%c')<CR>**<ESC>
 nnoremap <silent><buffer> <Leader>date a<C-R>=strftime('%F')<CR><ESC>
 
+" Surround a motion/text-object in '**' (markdown bold), e.g. <Leader>fbiw
+nnoremap <silent><buffer> <Leader>fb :set opfunc=ft#VimWikiHelpers#SurroundBold<CR>g@
+vnoremap <silent><buffer> <Leader>fb :<C-U>call ft#VimWikiHelpers#SurroundBold('v')<CR>
+
+" Surround a motion/text-object in '*' (markdown italic), e.g. <Leader>fiiw
+nnoremap <silent><buffer> <Leader>fi :set opfunc=ft#VimWikiHelpers#SurroundItalic<CR>g@
+vnoremap <silent><buffer> <Leader>fi :<C-U>call ft#VimWikiHelpers#SurroundItalic('v')<CR>
+
+" Surround a motion/text-object in '~~' (markdown strikethrough), e.g. <Leader>fsiw
+nnoremap <silent><buffer> <Leader>fs :set opfunc=ft#VimWikiHelpers#SurroundStrikethrough<CR>g@
+vnoremap <silent><buffer> <Leader>fs :<C-U>call ft#VimWikiHelpers#SurroundStrikethrough('v')<CR>
+
 " Close Calendar buffer
 command! CalendarClose bwipeout! __Calendar
 
